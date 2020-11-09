@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -44,5 +45,33 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
         var produtoVerificacao = entityManager.find(Produto.class, 3);
         assertNull(produtoVerificacao);
+    }
+
+    @Test
+    public void atualizarObjeto() {
+        var produto = new Produto(1, "Kindle Paperwhite", "Conheça o novo Kindle.", new BigDecimal(599));
+
+        entityManager.merge(produto);
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var produtoVerificacao = entityManager.find(Produto.class, produto.getId());
+        assertNotNull(produtoVerificacao);
+        assertEquals("Kindle Paperwhite", produtoVerificacao.getNome());
+    }
+
+    @Test
+    public void atualizarObjetoGerenciado() {
+        var produto = entityManager.find(Produto.class, 1);
+
+        produto.setNome("Kindle Paperwhite 2 geração");
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var produtoVerificacao = entityManager.find(Produto.class, produto.getId());
+        assertNotNull(produtoVerificacao);
+        assertEquals("Kindle Paperwhite 2 geração", produtoVerificacao.getNome());
     }
 }
