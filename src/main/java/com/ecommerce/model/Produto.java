@@ -14,6 +14,20 @@ public class Produto {
     private String descricao;
     private BigDecimal preco;
 
+    public Produto() {
+    }
+
+    public Produto(Integer id) {
+        this.id = id;
+    }
+
+    public Produto(Integer id, String nome, String descricao, BigDecimal preco) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
