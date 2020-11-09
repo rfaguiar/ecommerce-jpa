@@ -1,0 +1,20 @@
+package com.ecommerce.util;
+
+import com.ecommerce.model.Produto;
+
+import javax.persistence.Persistence;
+
+public class IniciarUnidadeDePersistencia {
+
+    public static void main(String[] args) {
+        var entityManagerFactory = Persistence
+                .createEntityManagerFactory("Ecommerce-PU");
+        var entityManager = entityManagerFactory.createEntityManager();
+
+        var produto = entityManager.find(Produto.class, 1);
+        System.out.println(produto.getNome());
+
+        entityManager.close();
+        entityManagerFactory.close();
+    }
+}
