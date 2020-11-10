@@ -11,7 +11,7 @@ public class PrimeiroCrudTest extends EntityManagerTest {
 
     @Test
     public void inserirRegistroCliente() {
-        var cliente = new Cliente(4, "Sebastião", null);
+        var cliente = new Cliente(null, "Sebastião", null);
         entityManager.persist(cliente);
         entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();

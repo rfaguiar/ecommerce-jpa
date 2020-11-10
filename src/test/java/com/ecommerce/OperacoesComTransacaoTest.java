@@ -25,7 +25,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void inserirOPrimeiroObjeto() {
-        var produto = new Produto(2, "Câmera Canon", "A melhor definição para suas fotos.", new BigDecimal(5000));
+        var produto = new Produto(null, "Câmera Canon", "A melhor definição para suas fotos.", new BigDecimal(5000));
 
         entityManager.persist(produto);
         entityManager.getTransaction().begin();
@@ -105,7 +105,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void mostrarDiferancaPersistMerge() {
-        var produtoPersist = new Produto(5, "Smartphone One Plus", "O processador mais rápido.", new BigDecimal(2000));
+        var produtoPersist = new Produto(null, "Smartphone One Plus", "O processador mais rápido.", new BigDecimal(2000));
 
         entityManager.getTransaction().begin();
         entityManager.persist(produtoPersist);

@@ -14,7 +14,7 @@ public class MapeandoObjetoEmbutidoTest extends EntityManagerTest {
 
     @Test
     public void testarEnum() {
-        var pedido = new Pedido(1, LocalDateTime.now(), LocalDateTime.now(), 1,
+        var pedido = new Pedido(null, LocalDateTime.now(), LocalDateTime.now(), 1,
                 new BigDecimal(1000), StatusPedido.AGUARDANDO,
                 new EnderecoEntregaPedido("00000-00", "Rua das Laranjeiras",
                         "123", null, "Centro",
