@@ -76,6 +76,21 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
     }
 
     @Test
+    public void impedirOperacaoComBancoDeDados() {
+        var produto = entityManager.find(Produto.class, 1);
+        entityManager.detach(produto);
+
+        produto.setNome("Kindle Paperwhite 2 geração");
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var produtoVerificacao = entityManager.find(Produto.class, produto.getId());
+        assertNotNull(produtoVerificacao);
+        assertEquals("Kindle", produtoVerificacao.getNome());
+    }
+
+    @Test
     public void inserirObjetoComMerge() {
         var produto = new Produto(4, "Microfone Rode Videmic", "A melhor qualidade de som.", new BigDecimal(1000));
 
