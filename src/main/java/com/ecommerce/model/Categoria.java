@@ -13,12 +13,12 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Data
 @Entity
-public class Cliente {
+public class Categoria {
 
     @EqualsAndHashCode.Include
     @Id
     private Integer id;
     private String nome;
-    private SexoCliente sexo;
+    private Integer categoriaPaiId;
 
 }

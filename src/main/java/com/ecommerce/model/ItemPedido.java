@@ -7,18 +7,21 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-public class Cliente {
+public class ItemPedido {
 
     @EqualsAndHashCode.Include
     @Id
     private Integer id;
-    private String nome;
-    private SexoCliente sexo;
+    private Integer pedidoId;
+    private Integer produtoId;
+    private BigDecimal precoProduto;
+    private Integer quantidade;
 
 }

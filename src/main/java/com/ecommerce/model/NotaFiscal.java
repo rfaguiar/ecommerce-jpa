@@ -7,18 +7,20 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-public class Cliente {
+public class NotaFiscal {
 
     @EqualsAndHashCode.Include
     @Id
     private Integer id;
-    private String nome;
-    private SexoCliente sexo;
+    private Integer pedidoId;
+    private String xml;
+    private Date dataEmissao;
 
 }

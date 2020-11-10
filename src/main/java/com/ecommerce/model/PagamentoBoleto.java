@@ -13,12 +13,13 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Data
 @Entity
-public class Cliente {
+public class PagamentoBoleto {
 
     @EqualsAndHashCode.Include
     @Id
     private Integer id;
-    private String nome;
-    private SexoCliente sexo;
+    private Integer pedidoId;
+    private StatusPagamento status;
+    private String codigoBarras;
 
 }
