@@ -87,4 +87,33 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         var produtoVerificacao = entityManager.find(Produto.class, produto.getId());
         assertNotNull(produtoVerificacao);
     }
+
+    @Test
+    public void mostrarDiferancaPersistMerge() {
+        var produtoPersist = new Produto(5, "Smartphone One Plus", "O processador mais rápido.", new BigDecimal(2000));
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(produtoPersist);
+        produtoPersist.setNome("Smartphone Two Plus");
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var produtoVerificacaoPersist = entityManager.find(Produto.class, produtoPersist.getId());
+        assertNotNull(produtoVerificacaoPersist);
+        assertEquals("Smartphone Two Plus", produtoVerificacaoPersist.getNome());
+
+
+
+        var produtoMerge = new Produto(5, "Notebook Dell", "O melhor da categoria.", new BigDecimal(2000));
+
+        entityManager.getTransaction().begin();
+        produtoMerge = entityManager.merge(produtoMerge);
+        produtoMerge.setNome("Notebook Dell 2");
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var produtoVerificacaoMerge = entityManager.find(Produto.class, produtoMerge.getId());
+        assertNotNull(produtoVerificacaoMerge);
+        assertEquals("Notebook Dell 2", produtoVerificacaoMerge.getNome());
+    }
 }
