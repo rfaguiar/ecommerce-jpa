@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNotNull;
 public class EstrategiaChavePrimariaTest extends EntityManagerTest {
 
     @Test
-    public void testarEstrategiaAuto() {
+    public void testarEstrategiaChave() {
         var categoria = new Categoria(null, "Eletrônicos", null);
 
         entityManager.persist(categoria);
