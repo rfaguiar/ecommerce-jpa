@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -31,5 +32,7 @@ public class Pedido {
     private Integer notFiscalId;
     private BigDecimal total;
     private StatusPedido status;
+    @Embedded
+    private EnderecoEntregaPedido endereco;
 
 }
