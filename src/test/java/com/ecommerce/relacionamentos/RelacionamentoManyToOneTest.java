@@ -19,7 +19,7 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
     public void verificarRelacionamentoPedido() {
         var cliente = entityManager.find(Cliente.class, 1);
         var pedido = new Pedido(null, LocalDateTime.now(), null,
-                null, BigDecimal.TEN, StatusPedido.AGUARDANDO, null, cliente);
+                null, BigDecimal.TEN, StatusPedido.AGUARDANDO, null, cliente, null);
 
         entityManager.persist(pedido);
         entityManager.getTransaction().begin();
@@ -32,8 +32,8 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
 
     @Test
     public void verificarRelacionamentoItemPedidoCliente() {
-        var cliente = entityManager.find(Cliente.class, 1);
-        var itemPedido = new ItemPedido(null, BigDecimal.ONE, 5, cliente, null);
+        var pedido = entityManager.find(Pedido.class, 1);
+        var itemPedido = new ItemPedido(null, BigDecimal.ONE, 5, pedido, null);
 
         entityManager.persist(itemPedido);
         entityManager.getTransaction().begin();
@@ -41,7 +41,7 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
         entityManager.clear();
 
         var itemPedidoVerificacao = entityManager.find(ItemPedido.class, itemPedido.getId());
-        assertNotNull(itemPedidoVerificacao.getCliente());
+        assertNotNull(itemPedidoVerificacao.getPedido());
     }
 
     @Test
