@@ -5,4 +5,6 @@ insert into cliente (id, nome) values (1, "Fernando José");
 insert into cliente (id, nome) values (2, "João Alves");
 insert into cliente (id, nome) values (3, "Lorenzo Guerra");
 
-insert into pedido (id, total) values (1, 500);
+insert into pedido (id, cliente_id, data_pedido, total, status) values (1, 1, sysdate(), 100.0, 'AGUARDANDO');
+
+insert into item_pedido (id, pedido_id, produto_id, preco_produto, quantidade) values (1, 1, 1, 5.0, 2);
