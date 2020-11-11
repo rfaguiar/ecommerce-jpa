@@ -27,8 +27,6 @@ public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "produto_id")
-    private Integer produtoId;
     @Column(name = "preco_produto")
     private BigDecimal precoProduto;
     private Integer quantidade;
@@ -36,5 +34,8 @@ public class ItemPedido {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
 
 }

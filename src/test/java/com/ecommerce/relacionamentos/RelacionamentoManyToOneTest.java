@@ -4,6 +4,7 @@ import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.ItemPedido;
 import com.ecommerce.model.Pedido;
+import com.ecommerce.model.Produto;
 import com.ecommerce.model.StatusPedido;
 import org.junit.Test;
 
@@ -30,9 +31,9 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
     }
 
     @Test
-    public void verificarRelacionamentoItemPedido() {
+    public void verificarRelacionamentoItemPedidoCliente() {
         var cliente = entityManager.find(Cliente.class, 1);
-        var itemPedido = new ItemPedido(null, null, BigDecimal.ONE, 5, cliente);
+        var itemPedido = new ItemPedido(null, BigDecimal.ONE, 5, cliente, null);
 
         entityManager.persist(itemPedido);
         entityManager.getTransaction().begin();
@@ -41,5 +42,19 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
 
         var itemPedidoVerificacao = entityManager.find(ItemPedido.class, itemPedido.getId());
         assertNotNull(itemPedidoVerificacao.getCliente());
+    }
+
+    @Test
+    public void verificarRelacionamentoItemPedidoProduto() {
+        var produto = entityManager.find(Produto.class, 1);
+        var itemPedido = new ItemPedido(null, BigDecimal.ONE, 5, null, produto);
+
+        entityManager.persist(itemPedido);
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var itemPedidoVerificacao = entityManager.find(ItemPedido.class, itemPedido.getId());
+        assertNotNull(itemPedidoVerificacao.getProduto());
     }
 }
