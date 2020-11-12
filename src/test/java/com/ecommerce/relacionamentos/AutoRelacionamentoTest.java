@@ -11,8 +11,8 @@ public class AutoRelacionamentoTest extends EntityManagerTest {
 
     @Test
     public void verificarRelacionamento() {
-        var categoriaPai = new Categoria(null, "Eletrônicos", null, null);
-        var categoria = new Categoria(null, "Celulares", categoriaPai, null);
+        var categoriaPai = new Categoria(null, "Eletrônicos", null, null, null);
+        var categoria = new Categoria(null, "Celulares", categoriaPai, null, null);
 
         entityManager.persist(categoriaPai);
         entityManager.persist(categoria);
