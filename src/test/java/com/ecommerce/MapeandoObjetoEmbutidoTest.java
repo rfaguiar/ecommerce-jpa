@@ -18,7 +18,7 @@ public class MapeandoObjetoEmbutidoTest extends EntityManagerTest {
                 new BigDecimal(1000), StatusPedido.AGUARDANDO,
                 new EnderecoEntregaPedido("00000-00", "Rua das Laranjeiras",
                         "123", null, "Centro",
-                        "São Paulo", "SP"), null, null);
+                        "São Paulo", "SP"), null, null, null);
         entityManager.persist(pedido);
         entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();

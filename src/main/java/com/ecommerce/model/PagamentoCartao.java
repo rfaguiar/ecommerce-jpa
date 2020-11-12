@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -26,10 +28,11 @@ public class PagamentoCartao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "pedido_id")
-    private Integer pedidoId;
     @Enumerated(EnumType.STRING)
     private StatusPagamento status;
     private String numero;
 
+    @OneToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
 }
