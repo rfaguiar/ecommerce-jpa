@@ -14,11 +14,11 @@ public class MapeandoObjetoEmbutidoTest extends EntityManagerTest {
 
     @Test
     public void testarEnum() {
-        var pedido = new Pedido(null, LocalDateTime.now(), LocalDateTime.now(), 1,
+        var pedido = new Pedido(null, LocalDateTime.now(), LocalDateTime.now(),
                 new BigDecimal(1000), StatusPedido.AGUARDANDO,
                 new EnderecoEntregaPedido("00000-00", "Rua das Laranjeiras",
                         "123", null, "Centro",
-                        "São Paulo", "SP"), null, null, null);
+                        "São Paulo", "SP"), null, null, null, null);
         entityManager.persist(pedido);
         entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();
