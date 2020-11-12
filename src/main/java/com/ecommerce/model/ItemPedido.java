@@ -31,10 +31,10 @@ public class ItemPedido {
     private BigDecimal precoProduto;
     private Integer quantidade;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
