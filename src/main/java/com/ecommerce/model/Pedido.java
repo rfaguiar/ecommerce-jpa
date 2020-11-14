@@ -17,6 +17,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,10 +41,10 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "data_pedido")
-    private LocalDateTime dataPedido;
-    @Column(name = "data_conclusao")
-    private LocalDateTime dataConclusao;
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
+    @Column(name = "data_atualizacao")
+    private LocalDateTime dataAtualizacao;
     private BigDecimal total;
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
@@ -56,4 +63,51 @@ public class Pedido {
 
     @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
+
+//    @PreUpdate
+//    @PrePersist
+    public void calcularTotal() {
+        if (itensPedido != null) {
+            total = itensPedido.stream()
+                        .map(ItemPedido::getPrecoProduto)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
+    }
+
+    @PrePersist
+    public void aoPersistir() {
+        dataCriacao = LocalDateTime.now();
+        calcularTotal();
+    }
+
+    @PreUpdate
+    public void aoAtualizar() {
+        dataAtualizacao = LocalDateTime.now();
+        calcularTotal();
+    }
+
+    @PostPersist
+    public void aposPersistir() {
+        System.out.println("Após persistir Pedido.");
+    }
+
+    @PostUpdate
+    public void aposAtualizar() {
+        System.out.println("Após atualizar Pedido.");
+    }
+
+    @PreRemove
+    public void preRemover() {
+        System.out.println("Antes de remover Pedido.");
+    }
+
+    @PostRemove
+    public void aposRemover() {
+        System.out.println("Após remover Pedido.");
+    }
+
+    @PostLoad
+    public void aoCarregar() {
+        System.out.println("Após carregar o Pedido.");
+    }
 }
