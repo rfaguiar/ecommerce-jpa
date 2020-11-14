@@ -1,11 +1,13 @@
 package com.ecommerce.model;
 
+import com.ecommerce.listener.GenericoListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EntityListeners({GenericoListener.class})
 @Entity
 @Table(name = "produto")
 public class Produto {

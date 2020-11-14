@@ -1,5 +1,7 @@
 package com.ecommerce.model;
 
+import com.ecommerce.listener.GenericoListener;
+import com.ecommerce.listener.GerarNotaFiscalListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -33,6 +36,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
 @Entity
 @Table(name = "pedido")
 public class Pedido {
@@ -63,6 +67,10 @@ public class Pedido {
 
     @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
+
+    public boolean isPago() {
+        return StatusPedido.PAGO.equals(status);
+    }
 
 //    @PreUpdate
 //    @PrePersist
