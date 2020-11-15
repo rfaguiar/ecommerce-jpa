@@ -30,7 +30,11 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
     @Test
     public void verificarRelacionamentoNotaFiscal() {
         var pedido = entityManager.find(Pedido.class, 1);
-        var notaFiscal = new NotaFiscal(null, "nfe", new Date(), pedido);
+        var notaFiscal = NotaFiscal.builder()
+                .pedido(pedido)
+                .xml("<xml/>")
+                .dataEmissao(new Date())
+                .build();
 
         entityManager.persist(notaFiscal);
         entityManager.getTransaction().begin();

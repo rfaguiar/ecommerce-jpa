@@ -45,7 +45,7 @@ public class RelacionamentoOneToManyTest extends EntityManagerTest {
         entityManager.persist(pedido);
 
         var itemPedido = ItemPedido.builder()
-                .id(new ItemPedidoId(pedido.getId(), produto.getId()))
+                .id(new ItemPedidoId())
                 .precoProduto(BigDecimal.ONE)
                 .quantidade(5)
                 .pedido(pedido)

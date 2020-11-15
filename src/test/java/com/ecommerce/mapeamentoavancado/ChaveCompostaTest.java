@@ -1,4 +1,4 @@
-package com.ecommerce.mapeamentoavancao;
+package com.ecommerce.mapeamentoavancado;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
@@ -34,7 +34,7 @@ public class ChaveCompostaTest extends EntityManagerTest {
         entityManager.flush();
 
         var itemPedido = ItemPedido.builder()
-                .id(new ItemPedidoId(pedido.getId(), produto.getId()))
+                .id(new ItemPedidoId())
                 .pedido(pedido)
                 .produto(produto)
                 .precoProduto(produto.getPreco())

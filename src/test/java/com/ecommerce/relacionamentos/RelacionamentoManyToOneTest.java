@@ -45,7 +45,7 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
         entityManager.persist(pedido);
 
         var itemPedido = ItemPedido.builder()
-                .id(new ItemPedidoId(pedido.getId(), produto.getId()))
+                .id(new ItemPedidoId())
                 .precoProduto(BigDecimal.ONE)
                 .quantidade(5)
                 .pedido(pedido)
@@ -80,7 +80,7 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
         entityManager.flush();
 
         ItemPedido itemPedido = ItemPedido.builder()
-                .id(new ItemPedidoId(pedido.getId(), produto.getId()))
+                .id(new ItemPedidoId())
                 .precoProduto(produto.getPreco())
                 .quantidade(1)
                 .pedido(pedido)

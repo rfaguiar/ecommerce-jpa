@@ -1,4 +1,4 @@
-package com.ecommerce.mapeamentoavancao;
+package com.ecommerce.mapeamentoavancado;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Produto;
