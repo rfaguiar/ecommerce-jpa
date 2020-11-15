@@ -59,8 +59,8 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
                 .preco(new BigDecimal(599))
                 .build();
 
-        entityManager.merge(produto);
         entityManager.getTransaction().begin();
+        produto = entityManager.merge(produto);
         entityManager.getTransaction().commit();
         entityManager.clear();
 
@@ -106,7 +106,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
                 .preco(new BigDecimal(1000))
                 .build();
 
-        entityManager.merge(produto);
+        produto = entityManager.merge(produto);
         entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();
         entityManager.clear();

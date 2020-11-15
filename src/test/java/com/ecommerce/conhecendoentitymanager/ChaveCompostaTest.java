@@ -34,8 +34,7 @@ public class ChaveCompostaTest extends EntityManagerTest {
         entityManager.flush();
 
         var itemPedido = ItemPedido.builder()
-                .pedidoId(pedido.getId())
-                .produtoId(produto.getId())
+                .id(new ItemPedidoId(pedido.getId(), produto.getId()))
                 .pedido(pedido)
                 .produto(produto)
                 .precoProduto(produto.getPreco())

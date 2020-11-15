@@ -34,8 +34,18 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
     @Test
     public void verificarRelacionamentoItemPedidoCliente() {
         var produto = entityManager.find(Produto.class, 1);
-        var pedido = entityManager.find(Pedido.class, 1);
+        var cliente = entityManager.find(Cliente.class, 1);
+
+        var pedido = Pedido.builder()
+                .cliente(cliente)
+                .total(produto.getPreco())
+                .build();
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(pedido);
+
         var itemPedido = ItemPedido.builder()
+                .id(new ItemPedidoId(pedido.getId(), produto.getId()))
                 .precoProduto(BigDecimal.ONE)
                 .quantidade(5)
                 .pedido(pedido)
@@ -43,11 +53,10 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
                 .build();
 
         entityManager.persist(itemPedido);
-        entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();
         entityManager.clear();
 
-        var itemPedidoVerificacao = entityManager.find(ItemPedido.class, itemPedido.getPedidoId());
+        var itemPedidoVerificacao = entityManager.find(ItemPedido.class, new ItemPedidoId(pedido.getId(), produto.getId()));
         assertNotNull(itemPedidoVerificacao.getPedido());
     }
 
@@ -70,13 +79,13 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
         // Mas caso isso não aconteça, o flush garante a sincronização.
         entityManager.flush();
 
-        ItemPedido itemPedido = new ItemPedido();
-        itemPedido.setPedidoId(pedido.getId());
-        itemPedido.setProdutoId(produto.getId());
-        itemPedido.setPrecoProduto(produto.getPreco());
-        itemPedido.setQuantidade(1);
-        itemPedido.setPedido(pedido);
-        itemPedido.setProduto(produto);
+        ItemPedido itemPedido = ItemPedido.builder()
+                .id(new ItemPedidoId(pedido.getId(), produto.getId()))
+                .precoProduto(produto.getPreco())
+                .quantidade(1)
+                .pedido(pedido)
+                .produto(produto)
+                .build();
 
         entityManager.persist(itemPedido);
 
