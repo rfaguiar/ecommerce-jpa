@@ -6,16 +6,22 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.Map;
 import java.util.Set;
 
 @Builder
@@ -34,6 +40,13 @@ public class Cliente {
 
     private String nome;
 
+    @ElementCollection
+    @CollectionTable(name = "cliente_contato",
+                joinColumns = @JoinColumn(name = "cliente_id"))
+    @MapKeyColumn
+    @Column(name = "descricao")
+    private Map<String, String> contatos;
+
     @Transient
     private String primeiroNome;
 
@@ -42,6 +55,7 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private Set<Pedido> pedidos;
+
 
     @PostLoad
     public void configurarPrimeiroNome() {

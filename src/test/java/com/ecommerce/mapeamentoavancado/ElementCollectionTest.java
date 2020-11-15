@@ -2,11 +2,14 @@ package com.ecommerce.mapeamentoavancado;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Atributo;
+import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Produto;
 import org.junit.Test;
 
+import java.util.Map;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class ElementCollectionTest extends EntityManagerTest {
@@ -37,6 +40,20 @@ public class ElementCollectionTest extends EntityManagerTest {
 
         var produtoVerificacao = entityManager.find(Produto.class, produto.getId());
         assertFalse(produtoVerificacao.getAtributos().isEmpty());
+    }
+
+    @Test
+    public void aplicarContato() {
+        entityManager.getTransaction().begin();
+
+        var cliente = entityManager.find(Cliente.class, 1);
+        cliente.setContatos(Map.of("email", "fernando@email.com"));
+
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var clienteVerificacao = entityManager.find(Cliente.class, cliente.getId());
+        assertEquals("fernando@email.com", clienteVerificacao.getContatos().get("email"));
     }
 
 }
