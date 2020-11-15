@@ -35,7 +35,12 @@ public class RelacionamentoOneToManyTest extends EntityManagerTest {
     public void verificarRelacionamentoItemPedidoCliente() {
         var produto = entityManager.find(Produto.class, 1);
         var pedido = entityManager.find(Pedido.class, 1);
-        var itemPedido = new ItemPedido(null, BigDecimal.ONE, 5, pedido, produto);
+        var itemPedido = ItemPedido.builder()
+                .precoProduto(BigDecimal.ONE)
+                .quantidade(5)
+                .pedido(pedido)
+                .produto(produto)
+                .build();
 
         entityManager.persist(itemPedido);
         entityManager.getTransaction().begin();

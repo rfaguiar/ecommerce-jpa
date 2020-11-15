@@ -3,6 +3,7 @@ package com.ecommerce.model;
 import com.ecommerce.listener.GenericoListener;
 import com.ecommerce.listener.GerarNotaFiscalListener;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
