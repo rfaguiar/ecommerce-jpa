@@ -41,9 +41,6 @@ public class RelacionamentoOneToManyTest extends EntityManagerTest {
                 .total(produto.getPreco())
                 .build();
 
-        entityManager.getTransaction().begin();
-        entityManager.persist(pedido);
-
         var itemPedido = ItemPedido.builder()
                 .id(new ItemPedidoId())
                 .precoProduto(BigDecimal.ONE)
@@ -52,6 +49,8 @@ public class RelacionamentoOneToManyTest extends EntityManagerTest {
                 .produto(produto)
                 .build();
 
+        entityManager.getTransaction().begin();
+        entityManager.persist(pedido);
         entityManager.persist(itemPedido);
         entityManager.getTransaction().commit();
         entityManager.clear();

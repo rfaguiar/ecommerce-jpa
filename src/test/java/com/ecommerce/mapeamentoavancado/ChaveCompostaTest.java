@@ -18,7 +18,6 @@ public class ChaveCompostaTest extends EntityManagerTest {
 
     @Test
     public void salvarItem() {
-        entityManager.getTransaction().begin();
 
         var cliente = entityManager.find(Cliente.class, 1);
         var produto = entityManager.find(Produto.class, 1);
@@ -30,9 +29,6 @@ public class ChaveCompostaTest extends EntityManagerTest {
                 .total(produto.getPreco())
                 .build();
 
-        entityManager.persist(pedido);
-        entityManager.flush();
-
         var itemPedido = ItemPedido.builder()
                 .id(new ItemPedidoId())
                 .pedido(pedido)
@@ -41,6 +37,8 @@ public class ChaveCompostaTest extends EntityManagerTest {
                 .quantidade(1)
                 .build();
 
+        entityManager.getTransaction().begin();
+        entityManager.persist(pedido);
         entityManager.persist(itemPedido);
         entityManager.getTransaction().commit();
         entityManager.clear();
