@@ -25,7 +25,11 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void inserirOPrimeiroObjeto() {
-        var produto = new Produto(null, "Câmera Canon", "A melhor definição para suas fotos.", new BigDecimal(5000), null, null);
+        var produto = Produto.builder()
+                .nome("Câmera Canon")
+                .descricao("A melhor definição para suas fotos.")
+                .preco(new BigDecimal(5000))
+                .build();
 
         entityManager.persist(produto);
         entityManager.getTransaction().begin();
@@ -49,7 +53,11 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void atualizarObjeto() {
-        var produto = new Produto(1, "Kindle Paperwhite", "Conheça o novo Kindle.", new BigDecimal(599), null, null);
+        var produto = Produto.builder()
+                .nome("Kindle Paperwhite")
+                .descricao("Conheça o novo Kindle.")
+                .preco(new BigDecimal(599))
+                .build();
 
         entityManager.merge(produto);
         entityManager.getTransaction().begin();
@@ -92,7 +100,11 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void inserirObjetoComMerge() {
-        var produto = new Produto(4, "Microfone Rode Videmic", "A melhor qualidade de som.", new BigDecimal(1000), null, null);
+        var produto = Produto.builder()
+                .nome("Microfone Rode Videmic")
+                .descricao("A melhor qualidade de som.")
+                .preco(new BigDecimal(1000))
+                .build();
 
         entityManager.merge(produto);
         entityManager.getTransaction().begin();
@@ -105,7 +117,11 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void mostrarDiferancaPersistMerge() {
-        var produtoPersist = new Produto(null, "Smartphone One Plus", "O processador mais rápido.", new BigDecimal(2000), null, null);
+        var produtoPersist = Produto.builder()
+                .nome("Smartphone One Plus")
+                .descricao("O processador mais rápido.")
+                .preco(new BigDecimal(2000))
+                .build();
 
         entityManager.getTransaction().begin();
         entityManager.persist(produtoPersist);
@@ -119,7 +135,12 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
 
 
-        var produtoMerge = new Produto(5, "Notebook Dell", "O melhor da categoria.", new BigDecimal(2000), null, null);
+        var produtoMerge = Produto.builder()
+                .id(5)
+                .nome("Notebook Dell")
+                .descricao("O melhor da categoria.")
+                .preco(new BigDecimal(2000))
+                .build();
 
         entityManager.getTransaction().begin();
         produtoMerge = entityManager.merge(produtoMerge);
