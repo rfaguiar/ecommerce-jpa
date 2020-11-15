@@ -1,4 +1,4 @@
-package com.ecommerce.conhecendoentitymanager;
+package com.ecommerce.mapeamentoavancao;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
