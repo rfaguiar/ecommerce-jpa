@@ -60,5 +60,10 @@ public class Produto {
     @CollectionTable(name = "produto_tag",
             joinColumns = @JoinColumn(name = "produto_id"))
     @Column(name = "tag")
-    private List<String> tags;
+    private Set<String> tags;
+
+    @ElementCollection
+    @CollectionTable(name = "produto_atributo",
+            joinColumns = @JoinColumn(name = "produto_id"))
+    private Set<Atributo> atributos;
 }
