@@ -45,9 +45,9 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "data_criacao")
+    @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
-    @Column(name = "data_atualizacao")
+    @Column(name = "data_atualizacao", insertable = false)
     private LocalDateTime dataAtualizacao;
     private BigDecimal total;
     @Enumerated(EnumType.STRING)
