@@ -25,7 +25,7 @@ public class MapsIdTest extends EntityManagerTest {
         var notaFiscal = NotaFiscal.builder()
                 .pedido(pedido)
                 .dataEmissao(new Date())
-                .xml("<xml/>")
+                .xml("<xml/>".getBytes())
                 .build();
 
         entityManager.getTransaction().begin();

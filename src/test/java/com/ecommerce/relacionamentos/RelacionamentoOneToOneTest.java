@@ -35,7 +35,7 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
         var pedido = entityManager.find(Pedido.class, 1);
         var notaFiscal = NotaFiscal.builder()
                 .pedido(pedido)
-                .xml("<xml/>")
+                .xml("<xml/>".getBytes())
                 .dataEmissao(new Date())
                 .build();
 
