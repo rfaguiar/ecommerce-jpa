@@ -136,11 +136,11 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
 
         var produtoMerge = Produto.builder()
-                .id(5)
                 .nome("Notebook Dell")
                 .descricao("O melhor da categoria.")
                 .preco(new BigDecimal(2000))
                 .build();
+        produtoMerge.setId(5);
 
         entityManager.getTransaction().begin();
         produtoMerge = entityManager.merge(produtoMerge);

@@ -10,18 +10,19 @@ import com.ecommerce.model.StatusPedido;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 
 public class RelacionamentoOneToManyTest extends EntityManagerTest {
 
     @Test
     public void verificarRelacionamentoPedido() {
         var cliente = entityManager.find(Cliente.class, 1);
-        var pedido = new Pedido(null, LocalDateTime.now(), null,
-                BigDecimal.TEN, StatusPedido.AGUARDANDO, null, cliente, null, null, null);
+        var pedido = Pedido.builder()
+                .cliente(cliente)
+                .total(BigDecimal.TEN)
+                .status(StatusPedido.AGUARDANDO)
+                .build();
 
         entityManager.persist(pedido);
         entityManager.getTransaction().begin();

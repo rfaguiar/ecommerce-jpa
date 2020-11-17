@@ -19,8 +19,11 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
     @Test
     public void verificarRelacionamentoPedido() {
         var cliente = entityManager.find(Cliente.class, 1);
-        var pedido = new Pedido(null, LocalDateTime.now(), null,
-                BigDecimal.TEN, StatusPedido.AGUARDANDO, null, cliente, null, null, null);
+        var pedido = Pedido.builder()
+                .cliente(cliente)
+                .total(BigDecimal.TEN)
+                .status(StatusPedido.AGUARDANDO)
+                .build();
 
         entityManager.persist(pedido);
         entityManager.getTransaction().begin();

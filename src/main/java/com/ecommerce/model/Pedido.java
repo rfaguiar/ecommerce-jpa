@@ -4,8 +4,9 @@ import com.ecommerce.listener.GenericoListener;
 import com.ecommerce.listener.GerarNotaFiscalListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -32,7 +33,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
 @Entity
 @Table(name = "pedido")
@@ -56,7 +58,7 @@ public class Pedido extends EntidadeBaseInteger {
     private Set<ItemPedido> itensPedido;
 
     @OneToOne(mappedBy = "pedido")
-    private PagamentoCartao pagamento;
+    private Pagamento pagamento;
 
     @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;

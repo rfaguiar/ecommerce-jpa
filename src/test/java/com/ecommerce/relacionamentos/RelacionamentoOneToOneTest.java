@@ -17,10 +17,11 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
     public void verificarRelacionamentoPagementoCartao() {
         var pedido = entityManager.find(Pedido.class, 1);
         var pagamentoCartao = PagamentoCartao.builder()
-                .pedido(pedido)
-                .status(StatusPagamento.PROCESSANDO)
                 .numero("123")
                 .build();
+        pagamentoCartao.setPedido(pedido);
+        pagamentoCartao.setStatus(StatusPagamento.PROCESSANDO);
+
         entityManager.persist(pagamentoCartao);
         entityManager.getTransaction().begin();
         entityManager.getTransaction().commit();

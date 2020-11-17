@@ -1,26 +1,22 @@
 package com.ecommerce.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "pagamento_boleto")
-public class PagamentoBoleto extends EntidadeBaseInteger {
+public class PagamentoBoleto extends Pagamento {
 
-    @Column(name = "pedido_id")
-    private Integer pedidoId;
-    @Enumerated(EnumType.STRING)
-    private StatusPagamento status;
     @Column(name = "codigo_barras")
     private String codigoBarras;
 
