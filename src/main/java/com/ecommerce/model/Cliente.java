@@ -12,6 +12,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
@@ -20,6 +21,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
@@ -30,11 +32,16 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "cliente")
+@Table(name = "cliente", uniqueConstraints = {
+        @UniqueConstraint(name = "unq_cpf", columnNames = {"cpf"})
+},
+indexes = {@Index(name = "idx_nome", columnList = "nome")})
 @SecondaryTable(name = "cliente_detalhe", pkJoinColumns = @PrimaryKeyJoinColumn(name = "cliente_id"))
 public class Cliente extends EntidadeBaseInteger {
 
     private String nome;
+
+    private String cpf;
 
     @ElementCollection
     @CollectionTable(name = "cliente_contato",
