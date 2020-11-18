@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.Set;
 
 @Builder
@@ -20,7 +22,10 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "categoria")
+@Table(name = "categoria", uniqueConstraints = {
+        @UniqueConstraint(name = "unq_nome", columnNames = {"nome"})
+},
+        indexes = {@Index(name = "idx_nome", columnList = "nome")})
 public class Categoria extends EntidadeBaseInteger {
 
     private String nome;
