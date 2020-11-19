@@ -38,6 +38,7 @@ public class RelacionamentoOneToManyTest extends EntityManagerTest {
         var produto = entityManager.find(Produto.class, 1);
         var cliente = entityManager.find(Cliente.class, 1);
         var pedido = Pedido.builder()
+                .status(StatusPedido.AGUARDANDO)
                 .cliente(cliente)
                 .total(produto.getPreco())
                 .build();

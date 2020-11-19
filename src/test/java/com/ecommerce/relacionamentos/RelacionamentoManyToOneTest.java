@@ -41,6 +41,7 @@ public class RelacionamentoManyToOneTest extends EntityManagerTest {
 
         var pedido = Pedido.builder()
                 .cliente(cliente)
+                .status(StatusPedido.AGUARDANDO)
                 .total(produto.getPreco())
                 .build();
 

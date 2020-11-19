@@ -7,6 +7,8 @@ import com.ecommerce.model.Produto;
 import com.ecommerce.model.StatusPedido;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertNotNull;
 
 public class ListenersTest extends EntityManagerTest {
@@ -20,9 +22,11 @@ public class ListenersTest extends EntityManagerTest {
     @Test
     public void acionarListener() {
         var cliente = entityManager.find(Cliente.class, 1);
-        var pedido = new Pedido();
-        pedido.setCliente(cliente);
-        pedido.setStatus(StatusPedido.AGUARDANDO);
+        var pedido = Pedido.builder()
+                .cliente(cliente)
+                .status(StatusPedido.AGUARDANDO)
+                .total(BigDecimal.TEN)
+                .build();
 
         entityManager.getTransaction().begin();
         entityManager.persist(pedido);

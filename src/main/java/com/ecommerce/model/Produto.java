@@ -15,6 +15,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,11 +39,21 @@ public class Produto extends EntidadeBaseInteger {
 
     @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
+
     @Column(name = "data_ultima_atualizacao", insertable = false)
     private LocalDateTime dataUltimaAtualizacao;
+
+    @Column(length = 100, nullable = false)
     private String nome;
+
+    @Column(columnDefinition = "varchar(275) not null")
     private String descricao;
+
+    @Column(precision = 10, scale = 2)
     private BigDecimal preco;
+
+    @Lob
+    private byte[] foto;
 
     @ManyToMany
     @JoinTable(name = "produto_categoria",

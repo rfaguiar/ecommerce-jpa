@@ -6,6 +6,8 @@ import com.ecommerce.model.Pedido;
 import com.ecommerce.model.StatusPedido;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertNotNull;
 
 public class CallbacksTest extends EntityManagerTest {
@@ -13,9 +15,11 @@ public class CallbacksTest extends EntityManagerTest {
     @Test
     public void acionarCallbacks() {
         var cliente = entityManager.find(Cliente.class, 1);
-        var pedido = new Pedido();
-        pedido.setCliente(cliente);
-        pedido.setStatus(StatusPedido.AGUARDANDO);
+        var pedido = Pedido.builder()
+                .cliente(cliente)
+                .status(StatusPedido.AGUARDANDO)
+                .total(BigDecimal.TEN)
+                .build();
 
         entityManager.getTransaction().begin();
         entityManager.persist(pedido);

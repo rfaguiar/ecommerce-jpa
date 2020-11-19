@@ -42,11 +42,17 @@ public class Pedido extends EntidadeBaseInteger {
 
     @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
+
     @Column(name = "data_atualizacao", insertable = false)
     private LocalDateTime dataAtualizacao;
+
+    @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal total;
+
+    @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
+
     @Embedded
     private EnderecoEntregaPedido endereco;
 
