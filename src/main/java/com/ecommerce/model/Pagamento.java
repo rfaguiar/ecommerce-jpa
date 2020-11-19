@@ -3,6 +3,7 @@ package com.ecommerce.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ public abstract class Pagamento extends EntidadeBaseInteger {
     private Pedido pedido;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 30, nullable = false)
     private StatusPagamento status;
 
 }

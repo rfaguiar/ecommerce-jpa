@@ -5,6 +5,7 @@ import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Pagamento;
 import com.ecommerce.model.PagamentoCartao;
 import com.ecommerce.model.Pedido;
+import com.ecommerce.model.SexoCliente;
 import com.ecommerce.model.StatusPagamento;
 import org.junit.Test;
 
@@ -19,6 +20,8 @@ public class HerancaTest extends EntityManagerTest {
     public void salvarCliente() {
         var cliente = Cliente.builder()
                 .nome("Fernando Morais")
+                .cpf("77116984023")
+                .sexo(SexoCliente.MASCULINO)
                 .build();
 
         entityManager.getTransaction().begin();

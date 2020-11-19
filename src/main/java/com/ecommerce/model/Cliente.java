@@ -39,8 +39,10 @@ indexes = {@Index(name = "idx_nome", columnList = "nome")})
 @SecondaryTable(name = "cliente_detalhe", pkJoinColumns = @PrimaryKeyJoinColumn(name = "cliente_id"))
 public class Cliente extends EntidadeBaseInteger {
 
+    @Column(length = 100, nullable = false)
     private String nome;
 
+    @Column(length = 14, nullable = false)
     private String cpf;
 
     @ElementCollection
@@ -53,7 +55,7 @@ public class Cliente extends EntidadeBaseInteger {
     @Transient
     private String primeiroNome;
 
-    @Column(table = "cliente_detalhe")
+    @Column(table = "cliente_detalhe", length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private SexoCliente sexo;
 

@@ -18,6 +18,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.math.BigDecimal;
@@ -37,7 +39,7 @@ import java.util.Set;
         indexes = {@Index(name = "idx_nome", columnList = "nome")})
 public class Produto extends EntidadeBaseInteger {
 
-    @Column(name = "data_criacao", updatable = false)
+    @Column(name = "data_criacao", updatable = false , nullable = false)
     private LocalDateTime dataCriacao;
 
     @Column(name = "data_ultima_atualizacao", insertable = false)
@@ -49,7 +51,6 @@ public class Produto extends EntidadeBaseInteger {
     @Column(columnDefinition = "varchar(275) not null")
     private String descricao;
 
-    @Column(precision = 10, scale = 2)
     private BigDecimal preco;
 
     @Lob
@@ -67,11 +68,22 @@ public class Produto extends EntidadeBaseInteger {
     @ElementCollection
     @CollectionTable(name = "produto_tag",
             joinColumns = @JoinColumn(name = "produto_id"))
-    @Column(name = "tag")
+    @Column(name = "tag", length = 50, nullable = false)
     private Set<String> tags;
 
     @ElementCollection
     @CollectionTable(name = "produto_atributo",
             joinColumns = @JoinColumn(name = "produto_id"))
     private Set<Atributo> atributos;
+
+
+    @PrePersist
+    public void aoPersistir() {
+        dataCriacao = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void aoAtualizar() {
+        dataUltimaAtualizacao = LocalDateTime.now();
+    }
 }

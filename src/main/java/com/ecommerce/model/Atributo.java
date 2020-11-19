@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @AllArgsConstructor
@@ -14,6 +15,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Atributo {
 
+    @Column(nullable = false, length = 100)
     private String nome;
 
     private String valor;

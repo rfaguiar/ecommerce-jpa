@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
@@ -28,6 +29,7 @@ import java.util.Set;
         indexes = {@Index(name = "idx_nome", columnList = "nome")})
 public class Categoria extends EntidadeBaseInteger {
 
+    @Column(length = 100, nullable = false)
     private String nome;
 
     @ManyToOne

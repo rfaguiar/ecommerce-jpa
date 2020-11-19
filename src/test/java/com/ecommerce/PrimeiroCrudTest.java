@@ -1,6 +1,7 @@
 package com.ecommerce;
 
 import com.ecommerce.model.Cliente;
+import com.ecommerce.model.SexoCliente;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -12,7 +13,9 @@ public class PrimeiroCrudTest extends EntityManagerTest {
     @Test
     public void inserirRegistroCliente() {
         var cliente = Cliente.builder()
+                .cpf("77116984021")
                 .nome("Sebastião")
+                .sexo(SexoCliente.MASCULINO)
                 .build();
         entityManager.persist(cliente);
         entityManager.getTransaction().begin();

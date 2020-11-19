@@ -40,13 +40,13 @@ import java.util.Set;
 @Table(name = "pedido")
 public class Pedido extends EntidadeBaseInteger {
 
-    @Column(name = "data_criacao", updatable = false)
+    @Column(name = "data_criacao", updatable = false, nullable = false)
     private LocalDateTime dataCriacao;
 
     @Column(name = "data_atualizacao", insertable = false)
     private LocalDateTime dataAtualizacao;
 
-    @Column(precision = 19, scale = 2, nullable = false)
+    @Column(nullable = false)
     private BigDecimal total;
 
     @Column(length = 30, nullable = false)

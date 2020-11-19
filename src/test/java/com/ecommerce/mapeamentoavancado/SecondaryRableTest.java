@@ -15,6 +15,7 @@ public class SecondaryRableTest extends EntityManagerTest {
     public void salvarCliente() {
         var cliente = Cliente.builder()
                 .nome("Carlos Finotti")
+                .cpf("77116984024")
                 .sexo(SexoCliente.MASCULINO)
                 .dataNascimento(LocalDate.of(1990, 1, 1))
                 .build();
