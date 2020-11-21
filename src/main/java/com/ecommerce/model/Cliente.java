@@ -2,6 +2,7 @@ package com.ecommerce.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

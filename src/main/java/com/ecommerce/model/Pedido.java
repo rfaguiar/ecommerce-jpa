@@ -4,6 +4,7 @@ import com.ecommerce.listener.GenericoListener;
 import com.ecommerce.listener.GerarNotaFiscalListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -30,6 +32,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -57,7 +60,8 @@ public class Pedido extends EntidadeBaseInteger {
     private EnderecoEntregaPedido endereco;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false,
+        foreignKey = @ForeignKey(name = "fk_pedido_cliente"))
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido")
