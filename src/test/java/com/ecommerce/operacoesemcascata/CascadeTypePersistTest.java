@@ -1,6 +1,7 @@
 package com.ecommerce.operacoesemcascata;
 
 import com.ecommerce.EntityManagerTest;
+import com.ecommerce.model.Categoria;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.ItemPedido;
 import com.ecommerce.model.ItemPedidoId;
@@ -101,5 +102,29 @@ public class CascadeTypePersistTest extends EntityManagerTest {
 
         var clienteVerificacao = entityManager.find(Cliente.class, cliente.getId());
         assertNotNull(clienteVerificacao);
+    }
+
+//    @Test
+    public void persistirProdutoComCategoria() {
+        var produto = Produto.builder()
+                .preco(BigDecimal.TEN)
+                .nome("Fones de Ouvido")
+                .descricao("A melhor qualidade de som")
+                .build();
+
+        var categoria = Categoria.builder()
+                .nome("Áudio")
+                .build();
+        produto.setCategorias(Set.of(categoria));//cascadeType.PERSIST
+
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(produto);
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+
+        var categoriaVerificacao = entityManager.find(Categoria.class, categoria.getId());
+        assertNotNull(categoriaVerificacao);
     }
 }
