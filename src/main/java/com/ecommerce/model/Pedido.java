@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -32,6 +33,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Log
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @Builder
 @AllArgsConstructor
@@ -101,26 +103,26 @@ public class Pedido extends EntidadeBaseInteger {
 
     @PostPersist
     public void aposPersistir() {
-        System.out.println("Após persistir Pedido.");
+        log.info("Após persistir Pedido.");
     }
 
     @PostUpdate
     public void aposAtualizar() {
-        System.out.println("Após atualizar Pedido.");
+        log.info("Após atualizar Pedido.");
     }
 
     @PreRemove
     public void preRemover() {
-        System.out.println("Antes de remover Pedido.");
+        log.info("Antes de remover Pedido.");
     }
 
     @PostRemove
     public void aposRemover() {
-        System.out.println("Após remover Pedido.");
+        log.info("Após remover Pedido.");
     }
 
     @PostLoad
     public void aoCarregar() {
-        System.out.println("Após carregar o Pedido.");
+        log.info("Após carregar o Pedido.");
     }
 }

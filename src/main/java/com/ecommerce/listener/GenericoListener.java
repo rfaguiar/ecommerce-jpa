@@ -1,11 +1,14 @@
 package com.ecommerce.listener;
 
+import lombok.extern.java.Log;
+
 import javax.persistence.PostLoad;
 
+@Log
 public class GenericoListener {
 
     @PostLoad
     public void logCarregamento(Object obj){
-        System.out.println("Entidade " + obj.getClass().getSimpleName() + " foi carregada.");
+        log.info("Entidade " + obj.getClass().getSimpleName() + " foi carregada.");
     }
 }
