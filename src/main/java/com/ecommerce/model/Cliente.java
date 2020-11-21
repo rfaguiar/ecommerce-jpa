@@ -41,7 +41,7 @@ import java.util.Set;
 indexes = {@Index(name = "idx_nome", columnList = "nome")})
 @SecondaryTable(name = "cliente_detalhe",
         pkJoinColumns = @PrimaryKeyJoinColumn(name = "cliente_id"),
-        foreignKey = @ForeignKey(name = "fk_cliente_Pdetalhe_cliente"))
+        foreignKey = @ForeignKey(name = "fk_cliente_detalhe_cliente"))
 public class Cliente extends EntidadeBaseInteger {
 
     @Column(length = 100, nullable = false)
@@ -52,8 +52,8 @@ public class Cliente extends EntidadeBaseInteger {
 
     @ElementCollection
     @CollectionTable(name = "cliente_contato",
-                joinColumns = @JoinColumn(name = "cliente_id"),
-                foreignKey = @ForeignKey(name = "fk_cliente_cliente_contato"))
+                joinColumns = @JoinColumn(name = "cliente_id",
+                        foreignKey = @ForeignKey(name = "fk_cliente_cliente_contato")))
     @MapKeyColumn
     @Column(name = "descricao")
     private Map<String, String> contatos;
