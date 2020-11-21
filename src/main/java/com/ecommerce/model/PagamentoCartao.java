@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name = "pagamento_cartao")
 public class PagamentoCartao extends Pagamento {
 
-    @Column(name = "numero_cartao", length = 50, nullable = false)
+    @Column(name = "numero_cartao", length = 50)
     private String numero;
 
 }
