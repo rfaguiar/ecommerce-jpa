@@ -4,8 +4,10 @@ import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.ItemPedido;
 import com.ecommerce.model.ItemPedidoId;
 import com.ecommerce.model.Pedido;
+import com.ecommerce.model.Produto;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -38,8 +40,17 @@ public class CascadeTypeRemoveTest extends EntityManagerTest {
     }
 
     @Test
-    public void test() {
-        assertTrue(true);
+    public void removerRelacaoProdutoCategoria() {
+        var produto = entityManager.find(Produto.class, 1);
+        assertFalse(produto.getCategorias().isEmpty());
+
+        entityManager.getTransaction().begin();
+        produto.getCategorias().clear();
+        entityManager.getTransaction().commit();
+        entityManager.clear();
+
+        var produtoVerificacao = entityManager.find(Produto.class, produto.getId());
+        assertTrue(produtoVerificacao.getCategorias().isEmpty());
     }
 
 }
