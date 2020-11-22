@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -65,7 +66,7 @@ public class BasicoJPQLTest extends EntityManagerTest {
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
         List<Object[]> lista = typedQuery.getResultList();
 
-        assertTrue(lista.get(0).length == 2);
+        assertEquals(2, lista.get(0).length);
         lista.forEach(arr -> log.info(arr[0] + ", " + arr[1]));
     }
 
@@ -78,7 +79,6 @@ public class BasicoJPQLTest extends EntityManagerTest {
 
         assertFalse(lista.isEmpty());
         lista.forEach(dto -> log.info(dto.toString()));
-
     }
 
 }
