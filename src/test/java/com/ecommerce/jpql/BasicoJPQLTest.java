@@ -1,6 +1,7 @@
 package com.ecommerce.jpql;
 
 import com.ecommerce.EntityManagerTest;
+import com.ecommerce.dto.ProdutoDTO;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Pedido;
 import lombok.extern.java.Log;
@@ -66,6 +67,18 @@ public class BasicoJPQLTest extends EntityManagerTest {
 
         assertTrue(lista.get(0).length == 2);
         lista.forEach(arr -> log.info(arr[0] + ", " + arr[1]));
+    }
+
+    @Test
+    public void projetarDTO() {
+        var jpql = "select new com.ecommerce.dto.ProdutoDTO(id, nome) from Produto";
+
+        TypedQuery<ProdutoDTO> typedQuery = entityManager.createQuery(jpql, ProdutoDTO.class);
+        List<ProdutoDTO> lista = typedQuery.getResultList();
+
+        assertFalse(lista.isEmpty());
+        lista.forEach(dto -> log.info(dto.toString()));
+
     }
 
 }
