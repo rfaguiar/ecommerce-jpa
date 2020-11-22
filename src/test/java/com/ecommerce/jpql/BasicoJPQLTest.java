@@ -3,6 +3,7 @@ package com.ecommerce.jpql;
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Pedido;
+import lombok.extern.java.Log;
 import org.junit.Test;
 
 import javax.persistence.Query;
@@ -11,7 +12,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+@Log
 public class BasicoJPQLTest extends EntityManagerTest {
 
     @Test
@@ -52,7 +55,17 @@ public class BasicoJPQLTest extends EntityManagerTest {
                 .createQuery(jpqlCliente, Cliente.class);
         List<Cliente> listaCliente = typedQueryCliente.getResultList();
         assertFalse(listaCliente.isEmpty());
+    }
 
+    @Test
+    public void projetarOResultado() {
+        var jpql = "select id, nome from Produto";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+        List<Object[]> lista = typedQuery.getResultList();
+
+        assertTrue(lista.get(0).length == 2);
+        lista.forEach(arr -> log.info(arr[0] + ", " + arr[1]));
     }
 
 }
