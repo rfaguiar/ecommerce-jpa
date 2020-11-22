@@ -7,7 +7,7 @@ import org.junit.Test;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class JoinTest extends EntityManagerTest {
 
@@ -17,7 +17,17 @@ public class JoinTest extends EntityManagerTest {
 
         TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
         List<Pedido> lista = typedQuery.getResultList();
-        assertEquals(1, lista.size());
+        assertFalse(lista.isEmpty());
     }
+
+    @Test
+    public void fazerLeftJoinTest() {
+        var jpql = "select p from Pedido p left join p.pagamento pag ";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+    }
+
 
 }
