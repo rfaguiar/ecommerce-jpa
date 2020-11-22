@@ -1,12 +1,15 @@
 package com.ecommerce.jpql;
 
 import com.ecommerce.EntityManagerTest;
+import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Pedido;
 import org.junit.Test;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 public class BasicoJPQLTest extends EntityManagerTest {
@@ -32,6 +35,24 @@ public class BasicoJPQLTest extends EntityManagerTest {
         Query query = entityManager.createQuery(jpql);
         Pedido pedido2 = (Pedido) query.getSingleResult();
         assertNotNull(pedido2);
+    }
+
+    @Test
+    public void selecionarUmAtributoParaRetorno() {
+        var jpql = "select p.nome from Produto p";
+
+        TypedQuery<String> typedQuery = entityManager
+                .createQuery(jpql, String.class);
+        List<String> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        var jpqlCliente = "select p.cliente from Pedido p";
+
+        TypedQuery<Cliente> typedQueryCliente = entityManager
+                .createQuery(jpqlCliente, Cliente.class);
+        List<Cliente> listaCliente = typedQueryCliente.getResultList();
+        assertFalse(listaCliente.isEmpty());
+
     }
 
 }
