@@ -30,4 +30,14 @@ public class JoinTest extends EntityManagerTest {
     }
 
 
+    @Test
+    public void fazerJoinFetchTest() {
+        var jpql = "select p from Pedido p join fetch p.itensPedido where p.id = 1 ";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+        Pedido lista = typedQuery.getSingleResult();
+        assertFalse(lista.getItensPedido().isEmpty());
+    }
+
+
 }
