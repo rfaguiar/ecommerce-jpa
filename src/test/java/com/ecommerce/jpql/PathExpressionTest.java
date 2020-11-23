@@ -29,6 +29,5 @@ public class PathExpressionTest extends EntityManagerTest {
 
         List<Pedido> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
-
     }
 }
