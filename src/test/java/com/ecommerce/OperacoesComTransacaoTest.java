@@ -1,5 +1,6 @@
 package com.ecommerce;
 
+import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Produto;
 import org.junit.Test;
 
@@ -11,10 +12,10 @@ import static org.junit.Assert.assertNull;
 
 public class OperacoesComTransacaoTest extends EntityManagerTest {
 
-    @Test
+//    @Test
     public void abrirEFecharATransacao() {
 //        var produto = new Produto();
-        entityManager.getTransaction().begin();;
+        entityManager.getTransaction().begin();
 
 //        entityManager.persist(produto);
 //        entityManager.merge(produto);
@@ -42,12 +43,13 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void removerObjeto() {
-        var produto = entityManager.find(Produto.class, 3);
-        entityManager.remove(produto);
+        var cliente = entityManager.find(Cliente.class, 2);
+
         entityManager.getTransaction().begin();
+        entityManager.remove(cliente);
         entityManager.getTransaction().commit();
 
-        var produtoVerificacao = entityManager.find(Produto.class, 3);
+        var produtoVerificacao = entityManager.find(Cliente.class, 3);
         assertNull(produtoVerificacao);
     }
 
