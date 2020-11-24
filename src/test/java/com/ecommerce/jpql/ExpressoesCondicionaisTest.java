@@ -2,6 +2,7 @@ package com.ecommerce.jpql;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Pedido;
+import com.ecommerce.model.Produto;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
@@ -88,6 +89,16 @@ public class ExpressoesCondicionaisTest extends EntityManagerTest {
         typedQuery.setParameter("dataFinal", LocalDateTime.now());
 
         List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoDiferente() {
+        var jpql = "select p from Produto p where p.id <> 1";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
     }
 }
