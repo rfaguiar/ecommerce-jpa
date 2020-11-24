@@ -66,4 +66,28 @@ public class ExpressoesCondicionaisTest extends EntityManagerTest {
         List<Pedido> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
     }
+
+    @Test
+    public void usarExpressaoBetween() {
+        var jpql = "select p from Produto p where p.preco between :precoInicial and :precoFinal";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+        typedQuery.setParameter("precoInicial", new BigDecimal(400));
+        typedQuery.setParameter("precoFinal", new BigDecimal(1500));
+
+        List<Object[]> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarBetweenComDatas() {
+        String jpql = "select p from Pedido p where p.dataCriacao between :dataInicial and :dataFinal";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+        typedQuery.setParameter("dataInicial", LocalDateTime.now().minusDays(10));
+        typedQuery.setParameter("dataFinal", LocalDateTime.now());
+
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+    }
 }
