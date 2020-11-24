@@ -1,6 +1,7 @@
 package com.ecommerce.jpql;
 
 import com.ecommerce.EntityManagerTest;
+import lombok.extern.java.Log;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 
+@Log
 public class FuncoesTest extends EntityManagerTest {
 
     @Test
@@ -21,7 +23,7 @@ public class FuncoesTest extends EntityManagerTest {
         List<Number> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
 
-        lista.forEach(obj -> System.out.println(obj));
+        lista.forEach(obj -> log.info(obj.toString()));
     }
 
 //    @Test
@@ -34,7 +36,7 @@ public class FuncoesTest extends EntityManagerTest {
         List<String> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
 
-        lista.forEach(obj -> System.out.println(obj));
+        lista.forEach(obj -> log.info(obj));
     }
 
 //    @Test
@@ -46,7 +48,7 @@ public class FuncoesTest extends EntityManagerTest {
         List<Integer> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
 
-        lista.forEach(size -> System.out.println(size));
+        lista.forEach(size -> log.info(size.toString()));
     }
 
     @Test
@@ -59,7 +61,7 @@ public class FuncoesTest extends EntityManagerTest {
         List<Object[]> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
 
-        lista.forEach(arr -> System.out.println(arr[0] + " | " + arr[1] + " | " + arr[2]));
+        lista.forEach(arr -> log.info(arr[0] + " | " + arr[1] + " | " + arr[2]));
     }
 
     @Test
@@ -76,7 +78,7 @@ public class FuncoesTest extends EntityManagerTest {
         List<Object[]> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
 
-        lista.forEach(arr -> System.out.println(arr[0] + " | " + arr[1] + " | " + arr[2]));
+        lista.forEach(arr -> log.info(arr[0] + " | " + arr[1] + " | " + arr[2]));
     }
 
     @Test
@@ -91,7 +93,7 @@ public class FuncoesTest extends EntityManagerTest {
         List<Object[]> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
 
-        lista.forEach(arr -> System.out.println(arr[0] + " - " + arr[1]));
+        lista.forEach(arr -> log.info(arr[0] + " - " + arr[1]));
     }
 
 }
