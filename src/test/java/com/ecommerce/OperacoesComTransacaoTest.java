@@ -43,13 +43,13 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
     public void removerObjeto() {
-        var cliente = entityManager.find(Cliente.class, 2);
+        var cliente = entityManager.find(Cliente.class, 5);
 
         entityManager.getTransaction().begin();
         entityManager.remove(cliente);
         entityManager.getTransaction().commit();
 
-        var produtoVerificacao = entityManager.find(Cliente.class, 3);
+        var produtoVerificacao = entityManager.find(Cliente.class, 5);
         assertNull(produtoVerificacao);
     }
 

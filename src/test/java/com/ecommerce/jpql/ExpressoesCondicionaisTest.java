@@ -3,6 +3,7 @@ package com.ecommerce.jpql;
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Pedido;
 import com.ecommerce.model.Produto;
+import lombok.extern.java.Log;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 
+@Log
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
@@ -100,5 +102,22 @@ public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
         List<Produto> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoCase() {
+        var jpql = "select p.id, " +
+                " case type(p.pagamento) " +
+                "       when PagamentoBoleto then 'Pago com boleto' " +
+                "       when PagamentoCartao then 'Pago com cartão' " +
+                "       else 'Não pago ainda.' " +
+                " end " +
+                " from Pedido p ";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+        lista.forEach(arr -> log.info(arr[0] + ", " + arr[1]));
     }
 }
