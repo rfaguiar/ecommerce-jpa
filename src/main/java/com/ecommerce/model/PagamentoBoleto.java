@@ -13,8 +13,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @Getter
 @Setter
+@DiscriminatorValue("boleto")
 @Entity
-@DiscriminatorValue("cartao")
 public class PagamentoBoleto extends Pagamento {
 
     @Column(name = "codigo_barras", length = 100)

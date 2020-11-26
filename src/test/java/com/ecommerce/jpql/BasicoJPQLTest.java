@@ -81,4 +81,30 @@ public class BasicoJPQLTest extends EntityManagerTest {
         lista.forEach(dto -> log.info(dto.toString()));
     }
 
+    @Test
+    public void ordenarResultados() {
+        var jpql = "select c from Cliente c order by c.nome asc"; // desc
+
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(jpql, Cliente.class);
+
+        List<Cliente> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(c -> System.out.println(c.getId() + ", " + c.getNome()));
+    }
+
+    @Test
+    public void usarDistinct() {
+        var jpql = "select distinct p from Pedido p " +
+                " join p.itensPedido i join i.produto pro " +
+                " where pro.id in (1, 2, 3, 4) ";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        System.out.println(lista.size());
+    }
+
 }

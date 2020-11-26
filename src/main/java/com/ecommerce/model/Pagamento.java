@@ -34,8 +34,8 @@ public abstract class Pagamento extends EntidadeBaseInteger {
             foreignKey = @ForeignKey(name = "fk_pagamento_pedido"))
     private Pedido pedido;
 
-    @Enumerated(EnumType.STRING)
     @Column(length = 30, nullable = false)
+    @Enumerated(EnumType.STRING)
     private StatusPagamento status;
 
 }
