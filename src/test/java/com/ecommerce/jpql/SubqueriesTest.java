@@ -83,4 +83,17 @@ public class SubqueriesTest extends EntityManagerTest {
         lista.forEach(obj -> log.info("ID: " + obj.getId()));
     }
 
+    @Test
+    public void perquisarComSubqueryExercicio() {
+        String jpql = "select c from Cliente c where " +
+                " (select count(cliente) from Pedido where cliente = c) >= 2";
+
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(jpql, Cliente.class);
+
+        List<Cliente> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> log.info("ID: " + obj.getId()));
+    }
+
 }
