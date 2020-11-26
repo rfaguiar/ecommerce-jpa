@@ -18,7 +18,7 @@ public class SubqueriesTest extends EntityManagerTest {
 
     @Test
     public void pesquisarComExists() {
-        String jpql = "select p from Produto p where exists " +
+        var jpql = "select p from Produto p where exists " +
                 " (select 1 from ItemPedido ip2 join ip2.produto p2 where p2 = p)";
 
         TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
@@ -31,7 +31,7 @@ public class SubqueriesTest extends EntityManagerTest {
 
     @Test
     public void pesquisarComIN() {
-        String jpql = "select p from Pedido p where p.id in " +
+        var jpql = "select p from Pedido p where p.id in " +
                 " (select p2.id from ItemPedido i2 " +
                 "      join i2.pedido p2 join i2.produto pro2 where pro2.preco > 100)";
 
@@ -46,7 +46,7 @@ public class SubqueriesTest extends EntityManagerTest {
     @Test
     public void pesquisarSubqueries() {
 //         Bons clientes. Versão 2.
-        String jpql = "select c from Cliente c where " +
+        var jpql = "select c from Cliente c where " +
                 " 500 < (select sum(p.total) from Pedido p where p.cliente = c)";
 
 //         Bons clientes. Versão 1.
@@ -71,7 +71,7 @@ public class SubqueriesTest extends EntityManagerTest {
 
     @Test
     public void pesquisarComINExercicio() {
-        String jpql = "select p from Pedido p where p.id in " +
+        var jpql = "select p from Pedido p where p.id in " +
                 " (select p2.id from ItemPedido i2 " +
                 "      join i2.pedido p2 join i2.produto pro2 join pro2.categorias c2 where c2.id = 2)";
 
@@ -85,7 +85,7 @@ public class SubqueriesTest extends EntityManagerTest {
 
     @Test
     public void perquisarComSubqueryExercicio() {
-        String jpql = "select c from Cliente c where " +
+        var jpql = "select c from Cliente c where " +
                 " (select count(cliente) from Pedido where cliente = c) >= 2";
 
         TypedQuery<Cliente> typedQuery = entityManager.createQuery(jpql, Cliente.class);
@@ -94,6 +94,20 @@ public class SubqueriesTest extends EntityManagerTest {
         assertFalse(lista.isEmpty());
 
         lista.forEach(obj -> log.info("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void perquisarComExistsExercicio() {
+        var jpql = "select p from Produto p " +
+                " where exists " +
+                " (select 1 from ItemPedido where produto = p and precoProduto <> p.preco)";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+
+        List<Produto> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
     }
 
 }
