@@ -1,6 +1,7 @@
 package com.ecommerce.jpql;
 
 import com.ecommerce.EntityManagerTest;
+import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Pedido;
 import com.ecommerce.model.Produto;
 import lombok.extern.java.Log;
@@ -119,5 +120,24 @@ public class ExpressoesCondicionaisTest extends EntityManagerTest {
         List<Object[]> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
         lista.forEach(arr -> log.info(arr[0] + ", " + arr[1]));
+    }
+
+    @Test
+    public void usarExpressaoIN() {
+        var cliente1 = new Cliente(); // entityManager.find(Cliente.class, 1);
+        cliente1.setId(1);
+
+        var cliente2 = new Cliente(); // entityManager.find(Cliente.class, 2);
+        cliente2.setId(2);
+
+        var clientes = List.of(cliente1, cliente2);
+
+        String jpql = "select p from Pedido p where p.cliente in (:clientes)";
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
+        typedQuery.setParameter("clientes", clientes);
+
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
     }
 }
