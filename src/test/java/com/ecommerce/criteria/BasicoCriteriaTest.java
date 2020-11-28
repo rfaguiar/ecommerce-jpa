@@ -7,6 +7,7 @@ import com.ecommerce.model.Produto;
 import lombok.extern.java.Log;
 import org.junit.Test;
 
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -79,6 +80,25 @@ public class BasicoCriteriaTest extends EntityManagerTest {
         List<Object[]> resultList = typedQuery.getResultList();
         assertFalse(resultList.isEmpty());
         resultList.forEach(arr -> log.info("ID: " + arr[0] + ", Nome: " + arr[1]));
+    }
+
+    @Test
+    public void projetarOResultadoTuple() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tuple> selectProduto = criteriaBuilder.createTupleQuery();
+
+        Root<Produto> fromProduto = selectProduto.from(Produto.class);
+        selectProduto.select(
+                criteriaBuilder.tuple(
+                        fromProduto.get("id").alias("id"),
+                        fromProduto.get("nome").alias("nome")
+                )
+        );
+
+        TypedQuery<Tuple> typedQuery = entityManager.createQuery(selectProduto);
+        List<Tuple> resultList = typedQuery.getResultList();
+        assertFalse(resultList.isEmpty());
+        resultList.forEach(tuple -> log.info("ID: " + tuple.get("id") + ", Nome: " + tuple.get("nome")));
     }
 
 }
