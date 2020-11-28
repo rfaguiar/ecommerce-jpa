@@ -9,6 +9,7 @@ import org.junit.Test;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
 import java.util.List;
@@ -22,14 +23,15 @@ public class BasicoCriteriaTest extends EntityManagerTest {
     @Test
     public void buscarPorIdentificador() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
-        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+        CriteriaQuery<Pedido> selectPedido = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> fromPedido = selectPedido.from(Pedido.class);
 
-        criteriaQuery.select(root);
+        selectPedido.select(fromPedido);
 
-        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), 1));
+        Path<Integer> pedidoId = fromPedido.get("id");
+        selectPedido.where(criteriaBuilder.equal(pedidoId, 1));
 
-        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(selectPedido);
         Pedido pedido = typedQuery.getSingleResult();
         assertNotNull(pedido);
     }
@@ -37,14 +39,15 @@ public class BasicoCriteriaTest extends EntityManagerTest {
     @Test
     public void selecionarUmAtributoParaRetorno() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
-        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+        CriteriaQuery<Cliente> selectCliente = criteriaBuilder.createQuery(Cliente.class);
+        Root<Pedido> fromPedido = selectCliente.from(Pedido.class);
 
-        criteriaQuery.select(root.get("cliente"));
+        selectCliente.select(fromPedido.get("cliente"));
 
-        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), 1));
+        Path<Integer> pedidoId = fromPedido.get("id");
+        selectCliente.where(criteriaBuilder.equal(pedidoId, 1));
 
-        TypedQuery<Cliente> typedQuery = entityManager.createQuery(criteriaQuery);
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(selectCliente);
         Cliente cliente = typedQuery.getSingleResult();
         assertEquals("Fernando Medeiros", cliente.getNome());
     }
@@ -52,12 +55,12 @@ public class BasicoCriteriaTest extends EntityManagerTest {
     @Test
     public void selecionaUmAtributoParaRetorno() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
+        CriteriaQuery<Produto> selectProduto = criteriaBuilder.createQuery(Produto.class);
 
-        Root<Produto> root = criteriaQuery.from(Produto.class);
-        criteriaQuery.select(root);
+        Root<Produto> fromProduto = selectProduto.from(Produto.class);
+        selectProduto.select(fromProduto);
 
-        TypedQuery<Produto> typedQuery = entityManager.createQuery(criteriaQuery);
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(selectProduto);
         List<Produto> resultList = typedQuery.getResultList();
         assertFalse(resultList.isEmpty());
     }
