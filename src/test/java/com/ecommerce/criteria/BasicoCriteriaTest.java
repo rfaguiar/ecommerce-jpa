@@ -4,6 +4,7 @@ import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Pedido;
 import com.ecommerce.model.Produto;
+import lombok.extern.java.Log;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+@Log
 public class BasicoCriteriaTest extends EntityManagerTest {
 
     @Test
@@ -63,6 +65,20 @@ public class BasicoCriteriaTest extends EntityManagerTest {
         TypedQuery<Produto> typedQuery = entityManager.createQuery(selectProduto);
         List<Produto> resultList = typedQuery.getResultList();
         assertFalse(resultList.isEmpty());
+    }
+
+    @Test
+    public void projetarOResultado() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> selectProduto = criteriaBuilder.createQuery(Object[].class);
+
+        Root<Produto> fromProduto = selectProduto.from(Produto.class);
+        selectProduto.multiselect(fromProduto.get("id"), fromProduto.get("nome"));
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(selectProduto);
+        List<Object[]> resultList = typedQuery.getResultList();
+        assertFalse(resultList.isEmpty());
+        resultList.forEach(arr -> log.info("ID: " + arr[0] + ", Nome: " + arr[1]));
     }
 
 }
