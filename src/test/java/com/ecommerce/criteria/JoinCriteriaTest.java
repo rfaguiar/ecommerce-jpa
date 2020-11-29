@@ -2,10 +2,13 @@ package com.ecommerce.criteria;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
+import com.ecommerce.model.ItemPedido;
 import com.ecommerce.model.NotaFiscal;
 import com.ecommerce.model.Pagamento;
 import com.ecommerce.model.Pedido;
+import com.ecommerce.model.Produto;
 import com.ecommerce.model.StatusPagamento;
+import lombok.extern.java.Log;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
@@ -19,8 +22,10 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+@Log
 public class JoinCriteriaTest extends EntityManagerTest {
 
     @Test
@@ -88,6 +93,24 @@ public class JoinCriteriaTest extends EntityManagerTest {
         TypedQuery<Pedido> typedQuery = entityManager.createQuery(selectPedido);
         Pedido pedido = typedQuery.getSingleResult();
         assertNotNull(pedido);
+    }
+
+    @Test
+    public void buscarPedidosComProdutoEspecifico() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> selectPedido = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> fromPedido = selectPedido.from(Pedido.class);
+        Join<Pedido, ItemPedido> joinItemPedido = fromPedido.join("itensPedido");
+        Join<ItemPedido, Produto> joinProduto = joinItemPedido.join("produto");
+
+        selectPedido.select(fromPedido);
+
+        Path<Integer> produtoId = joinProduto.get("id");
+        selectPedido.where(criteriaBuilder.equal(produtoId, 1));
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(selectPedido);
+        List<Pedido> pedidos = typedQuery.getResultList();
+        assertFalse(pedidos.isEmpty());
     }
 
 }
