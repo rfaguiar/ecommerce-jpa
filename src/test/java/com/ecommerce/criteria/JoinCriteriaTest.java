@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -19,6 +20,19 @@ public class JoinCriteriaTest extends EntityManagerTest {
 
     @Test
     public void fazerJoin() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> fromPedido = criteriaQuery.from(Pedido.class);
+        Join<Pedido, Pagamento> joinPagamento = fromPedido.join("pagamento");
+        criteriaQuery.select(fromPedido);
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> pedidos = typedQuery.getResultList();
+        assertEquals(4, pedidos.size());
+    }
+
+    @Test
+    public void fazerJoinComOn() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
         Root<Pedido> fromPedido = criteriaQuery.from(Pedido.class);
@@ -38,11 +52,11 @@ public class JoinCriteriaTest extends EntityManagerTest {
     }
 
     @Test
-    public void fazerJoinComOn() {
+    public void fazerLeftOuterJoin() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
         Root<Pedido> fromPedido = criteriaQuery.from(Pedido.class);
-        Join<Pedido, Pagamento> joinPagamento = fromPedido.join("pagamento");
+        Join<Pedido, Pagamento> joinPagamento = fromPedido.join("pagamento", JoinType.LEFT);
 
         criteriaQuery.select(fromPedido);
 
