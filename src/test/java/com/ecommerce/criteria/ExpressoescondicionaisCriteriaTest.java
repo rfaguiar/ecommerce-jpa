@@ -3,6 +3,8 @@ package com.ecommerce.criteria;
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Cliente_;
+import com.ecommerce.model.Produto;
+import com.ecommerce.model.Produto_;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
@@ -12,6 +14,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
 
@@ -33,6 +36,46 @@ public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
         TypedQuery<Cliente> typedQuery = entityManager.createQuery(selectCliente);
         List<Cliente> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoIsNull() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> selectProduto = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> fromProduto = selectProduto.from(Produto.class);
+
+        selectProduto.select(fromProduto);
+
+        selectProduto.where(
+                criteriaBuilder.isNull(
+                    fromProduto.get(Produto_.foto)
+                )
+        );
+
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(selectProduto);
+        List<Produto> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoIsEmpty() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> selectProduto = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> fromProduto = selectProduto.from(Produto.class);
+
+        selectProduto.select(fromProduto);
+
+        selectProduto.where(
+                criteriaBuilder.isEmpty(
+                        fromProduto.get(Produto_.categorias)
+                )
+        );
+
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(selectProduto);
+        List<Produto> lista = typedQuery.getResultList();
+        assertTrue(lista.isEmpty());
     }
 
 }
