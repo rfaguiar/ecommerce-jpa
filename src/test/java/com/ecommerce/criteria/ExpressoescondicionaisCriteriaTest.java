@@ -3,6 +3,8 @@ package com.ecommerce.criteria;
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Cliente_;
+import com.ecommerce.model.Pedido;
+import com.ecommerce.model.Pedido_;
 import com.ecommerce.model.Produto;
 import com.ecommerce.model.Produto_;
 import lombok.extern.java.Log;
@@ -13,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
@@ -105,7 +108,30 @@ public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
         List<Produto> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
         lista.forEach(p -> log.info(p.getId() + " | " + p.getNome() + " | " + p.getPreco()));
+    }
 
+    @Test
+    public void usarMaiorMenorComDatas() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> selectPedido = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> fromPedido = selectPedido.from(Pedido.class);
+
+        selectPedido.select(fromPedido);
+        selectPedido.where(
+                criteriaBuilder.greaterThanOrEqualTo(
+                        fromPedido.get(Pedido_.dataCriacao),
+                        LocalDateTime.now().minusDays(4)
+                ),
+                criteriaBuilder.lessThanOrEqualTo(
+                        fromPedido.get(Pedido_.dataCriacao),
+                        LocalDateTime.now().minusDays(1)
+                )
+        );
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(selectPedido);
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+        lista.forEach(p -> log.info(p.getId() + " | " + p.getDataCriacao()));
     }
 
 }
