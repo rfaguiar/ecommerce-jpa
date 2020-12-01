@@ -5,17 +5,20 @@ import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Cliente_;
 import com.ecommerce.model.Produto;
 import com.ecommerce.model.Produto_;
+import lombok.extern.java.Log;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@Log
 public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
 
     @Test
@@ -76,6 +79,33 @@ public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
         TypedQuery<Produto> typedQuery = entityManager.createQuery(selectProduto);
         List<Produto> lista = typedQuery.getResultList();
         assertTrue(lista.isEmpty());
+    }
+
+    @Test
+    public void usarExpressaoMaiorMenor() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> selectProduto = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> fromProduto = selectProduto.from(Produto.class);
+
+        selectProduto.select(fromProduto);
+
+        selectProduto.where(
+                criteriaBuilder.greaterThanOrEqualTo(
+                        fromProduto.get(Produto_.preco),
+                        new BigDecimal(799)
+                ),
+                criteriaBuilder.lessThanOrEqualTo(
+                        fromProduto.get(Produto_.preco),
+                        new BigDecimal(3500)
+                )
+        );
+
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(selectProduto);
+        List<Produto> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+        lista.forEach(p -> log.info(p.getId() + " | " + p.getNome() + " | " + p.getPreco()));
+
     }
 
 }
