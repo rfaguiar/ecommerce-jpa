@@ -134,4 +134,25 @@ public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
         lista.forEach(p -> log.info(p.getId() + " | " + p.getDataCriacao()));
     }
 
+    @Test
+    public void usarExpressaoBetween() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> selectPedido = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> fromPedido = selectPedido.from(Pedido.class);
+
+        selectPedido.select(fromPedido);
+        selectPedido.where(
+                criteriaBuilder.between(
+                        fromPedido.get(Pedido_.total),
+                        new BigDecimal(499),
+                        new BigDecimal(2398)
+                )
+        );
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(selectPedido);
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+        lista.forEach(p -> log.info(p.getId() + " | " + p.getTotal()));
+    }
+
 }
