@@ -155,4 +155,24 @@ public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
         lista.forEach(p -> log.info(p.getId() + " | " + p.getTotal()));
     }
 
+    @Test
+    public void usarExpressaoDiferente() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> selectPedido = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> fromPedido = selectPedido.from(Pedido.class);
+
+        selectPedido.select(fromPedido);
+        selectPedido.where(
+                criteriaBuilder.notEqual(
+                        fromPedido.get(Pedido_.total),
+                        new BigDecimal(499)
+                )
+        );
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(selectPedido);
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+        lista.forEach(p -> log.info(p.getId() + " | " + p.getTotal()));
+    }
+
 }
