@@ -7,6 +7,7 @@ import com.ecommerce.model.Pedido;
 import com.ecommerce.model.Pedido_;
 import com.ecommerce.model.Produto;
 import com.ecommerce.model.Produto_;
+import com.ecommerce.model.StatusPedido;
 import lombok.extern.java.Log;
 import org.junit.Test;
 
@@ -173,6 +174,36 @@ public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
         List<Pedido> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
         lista.forEach(p -> log.info(p.getId() + " | " + p.getTotal()));
+    }
+
+    @Test
+    public void usarOperadores() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> selectPedido = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> fromPedido = selectPedido.from(Pedido.class);
+
+        selectPedido.select(fromPedido);
+        selectPedido.where(
+                criteriaBuilder.or(
+                    criteriaBuilder.equal(
+                            fromPedido.get(Pedido_.status),
+                            StatusPedido.AGUARDANDO
+                    ),
+                    criteriaBuilder.equal(
+                            fromPedido.get(Pedido_.status),
+                            StatusPedido.PAGO
+                    )
+                ),
+                criteriaBuilder.greaterThan(
+                        fromPedido.get(Pedido_.total),
+                        new BigDecimal(499)
+                )
+        );
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(selectPedido);
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+        lista.forEach(p -> log.info(p.getId() + " | " + p.getTotal() + " | " + p.getStatus()));
     }
 
 }
