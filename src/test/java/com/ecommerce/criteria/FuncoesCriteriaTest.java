@@ -123,4 +123,28 @@ public class FuncoesCriteriaTest extends EntityManagerTest {
                         + ", sqrt: " + arr[3]));
     }
 
+    @Test
+    public void aplicarFuncaoColecao() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        criteriaQuery.multiselect(
+                root.get(Pedido_.id),
+                criteriaBuilder.size(root.get(Pedido_.itensPedido))
+        );
+
+        criteriaQuery.where(criteriaBuilder.greaterThan(
+                criteriaBuilder.size(root.get(Pedido_.itensPedido)), 1));
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(arr -> System.out.println(
+                arr[0]
+                        + ", size: " + arr[1]));
+    }
+
 }
