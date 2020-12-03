@@ -171,5 +171,30 @@ public class FuncoesCriteriaTest extends EntityManagerTest {
                 arr[0] + ", dayname: " + arr[1]));
     }
 
+    @Test
+    public void aplicarFuncaoAgregacao() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
 
+        criteriaQuery.multiselect(
+                criteriaBuilder.count(root.get(Pedido_.id)),
+                criteriaBuilder.avg(root.get(Pedido_.total)),
+                criteriaBuilder.sum(root.get(Pedido_.total)),
+                criteriaBuilder.min(root.get(Pedido_.total)),
+                criteriaBuilder.max(root.get(Pedido_.total))
+        );
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(arr -> System.out.println(
+                "count: " + arr[0]
+                        + ", avg: " + arr[1]
+                        + ", sum: " + arr[2]
+                        + ", min: " + arr[3]
+                        + ", max: " + arr[4]));
+    }
 }
