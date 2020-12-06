@@ -3,7 +3,9 @@ package com.ecommerce.criteria;
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.dto.ProdutoDTO;
 import com.ecommerce.model.Cliente;
+import com.ecommerce.model.Cliente_;
 import com.ecommerce.model.Pedido;
+import com.ecommerce.model.Pedido_;
 import com.ecommerce.model.Produto;
 import lombok.extern.java.Log;
 import org.junit.Test;
@@ -120,6 +122,38 @@ public class BasicoCriteriaTest extends EntityManagerTest {
         List<ProdutoDTO> resultList = typedQuery.getResultList();
         assertFalse(resultList.isEmpty());
         resultList.forEach(dto -> log.info("ID: " + dto.getId() + ", Nome: " + dto.getNome()));
+    }
+
+    @Test
+    public void usarDistinct() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+        root.join(Pedido_.itensPedido);
+
+        criteriaQuery.select(root);
+        criteriaQuery.distinct(true);
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> lista = typedQuery.getResultList();
+
+        lista.forEach(p -> System.out.println("ID: " + p.getId()));
+    }
+
+    @Test
+    public void ordenarResultados() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
+        Root<Cliente> root = criteriaQuery.from(Cliente.class);
+
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Cliente_.nome)));
+
+        TypedQuery<Cliente> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Cliente> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(c -> System.out.println(c.getId() + ", " + c.getNome()));
     }
 
 }
