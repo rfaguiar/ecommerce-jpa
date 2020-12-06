@@ -28,6 +28,66 @@ import static org.junit.Assert.assertFalse;
 public class SubqueriesCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void pesquisarComAll02() {
+//        Todos os produtos não foram vendidos mais depois que encareceram
+//        String jpql = "select p from Produto p where " +
+//                " p.preco > ALL (select precoProduto from ItemPedido where produto = p)";
+//                " and exists (select 1 from ItemPedido where produto = p)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> root = criteriaQuery.from(Produto.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<BigDecimal> subquery = criteriaQuery.subquery(BigDecimal.class);
+        Root<ItemPedido> subqueryRoot = subquery.from(ItemPedido.class);
+        subquery.select(subqueryRoot.get(ItemPedido_.precoProduto));
+        subquery.where(criteriaBuilder.equal(subqueryRoot.get(ItemPedido_.produto), root));
+
+        criteriaQuery.where(
+                criteriaBuilder.greaterThan(
+                        root.get(Produto_.preco), criteriaBuilder.all(subquery)),
+                criteriaBuilder.exists(subquery)
+        );
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Produto> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
+    public void pesquisarComAll01() {
+//        Todos os produtos que SEMPRE foram vendidos pelo preco atual.
+//        String jpql = "select p from Produto p where " +
+//                " p.preco = ALL (select precoProduto from ItemPedido where produto = p)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> root = criteriaQuery.from(Produto.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<BigDecimal> subquery = criteriaQuery.subquery(BigDecimal.class);
+        Root<ItemPedido> subqueryRoot = subquery.from(ItemPedido.class);
+        subquery.select(subqueryRoot.get(ItemPedido_.precoProduto));
+        subquery.where(criteriaBuilder.equal(subqueryRoot.get(ItemPedido_.produto), root));
+
+        criteriaQuery.where(criteriaBuilder.equal(
+                root.get(Produto_.preco), criteriaBuilder.all(subquery)));
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Produto> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void perquisarComExistsExercicio() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
