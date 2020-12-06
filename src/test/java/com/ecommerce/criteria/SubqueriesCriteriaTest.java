@@ -25,6 +25,33 @@ import static org.junit.Assert.assertFalse;
 public class SubqueriesCriteriaTest extends EntityManagerTest {
 
     @Test
+    public void pesquisarComExists() {
+//        Todos os produtos que já foram vendidos.
+//        String jpql = "select p from Produto p where exists " +
+//                " (select 1 from ItemPedido ip2 join ip2.produto p2 where p2 = p)";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> root = criteriaQuery.from(Produto.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
+        Root<ItemPedido> subqueryRoot = subquery.from(ItemPedido.class);
+        subquery.select(criteriaBuilder.literal(1));
+        subquery.where(criteriaBuilder.equal(subqueryRoot.get(ItemPedido_.produto), root));
+
+        criteriaQuery.where(criteriaBuilder.exists(subquery));
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Produto> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
+
+    @Test
     public void pesquisarComIN() {
 //        String jpql = "select p from Pedido p where p.id in " +
 //                " (select p2.id from ItemPedido i2 " +
