@@ -23,7 +23,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @Log
-public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
+public class ExpressoesCondicionaisCriteriaTest extends EntityManagerTest {
 
     @Test
     public void usarExpressaoCondicionalLike() {
@@ -220,6 +220,32 @@ public class ExpressoescondicionaisCriteriaTest extends EntityManagerTest {
         List<Cliente> lista = typedQuery.getResultList();
         assertFalse(lista.isEmpty());
         lista.forEach(c -> log.info(c.getId() + " | " + c.getNome()));
+    }
+
+    @Test
+    public void usarExpressaoCase() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        criteriaQuery.multiselect(
+                root.get(Pedido_.id),
+//                criteriaBuilder.selectCase(root.get(Pedido_.STATUS))
+//                        .when(StatusPedido.PAGO.toString(), "Foi pago.")
+//                        .when(StatusPedido.AGUARDANDO.toString(), "Está aguardando.")
+//                        .otherwise(root.get(Pedido_.status))
+                criteriaBuilder.selectCase(root.get(Pedido_.pagamento).type().as(String.class))
+                        .when("boleto", "Foi pago com boleto.")
+                        .when("cartao", "Foi pago com cartão")
+                        .otherwise("Não identificado")
+        );
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
     }
 
 }
