@@ -1,8 +1,11 @@
 package com.ecommerce.criteria;
 
 import com.ecommerce.EntityManagerTest;
+import com.ecommerce.model.Categoria;
+import com.ecommerce.model.Categoria_;
 import com.ecommerce.model.Cliente;
 import com.ecommerce.model.ItemPedido;
+import com.ecommerce.model.ItemPedidoId_;
 import com.ecommerce.model.ItemPedido_;
 import com.ecommerce.model.Pedido;
 import com.ecommerce.model.Pedido_;
@@ -23,6 +26,32 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 
 public class SubqueriesCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void pesquisarComINExercicio() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        criteriaQuery.select(root);
+
+        Subquery<Integer> subquery = criteriaQuery.subquery(Integer.class);
+        Root<ItemPedido> subqueryRoot = subquery.from(ItemPedido.class);
+        Join<ItemPedido, Produto> subqueryJoinProduto = subqueryRoot.join(ItemPedido_.produto);
+        Join<Produto, Categoria> subqueryJoinProdutoCategoria = subqueryJoinProduto
+                .join(Produto_.categorias);
+        subquery.select(subqueryRoot.get(ItemPedido_.id).get(ItemPedidoId_.pedidoId));
+        subquery.where(criteriaBuilder.equal(subqueryJoinProdutoCategoria.get(Categoria_.id), 2));
+
+        criteriaQuery.where(root.get(Pedido_.id).in(subquery));
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Pedido> lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println("ID: " + obj.getId()));
+    }
 
     @Test
     public void perquisarComSubqueryExercicio() {
