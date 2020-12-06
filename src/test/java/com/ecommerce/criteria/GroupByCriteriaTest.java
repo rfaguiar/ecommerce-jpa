@@ -16,12 +16,50 @@ import org.junit.Test;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class GroupByCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void agruparResultadoComFuncoes() {
+//         Total de vendas por mês.
+//        String jpql = "select concat(year(p.dataCriacao), '/', function('monthname', p.dataCriacao)), sum(p.total) " +
+//                " from Pedido p " +
+//                " group by year(p.dataCriacao), month(p.dataCriacao) ";
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        Expression<Integer> anoCriacaoPedido = criteriaBuilder
+                .function("year", Integer.class, root.get(Pedido_.dataCriacao));
+        Expression<Integer> mesCriacaoPedido = criteriaBuilder
+                .function("month", Integer.class, root.get(Pedido_.dataCriacao));
+        Expression<String> nomeMesCriacaoPedido = criteriaBuilder
+                .function("monthname", String.class, root.get(Pedido_.dataCriacao));
+
+        Expression<String> anoMesConcat = criteriaBuilder.concat(
+                criteriaBuilder.concat(anoCriacaoPedido.as(String.class), "/"),
+                nomeMesCriacaoPedido
+        );
+
+        criteriaQuery.multiselect(
+                anoMesConcat,
+                criteriaBuilder.sum(root.get(Pedido_.total))
+        );
+
+        criteriaQuery.groupBy(anoCriacaoPedido, mesCriacaoPedido);
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Object[]> lista = typedQuery.getResultList();
+
+        lista.forEach(arr -> System.out.println("Ano/Mês: " + arr[0] + ", Sum: " + arr[1]));
+    }
+
 
     @Test
     public void agruparResultado03Exercicio() {
