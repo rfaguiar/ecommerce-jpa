@@ -10,6 +10,17 @@ import java.util.List;
 public class ConsultasNativaTest extends EntityManagerTest {
 
     @Test
+    public void executarSQLPassarParametrose() {
+        var sql = "select * from produto where id = :id";
+        Query nativeQuery = entityManager.createNativeQuery(sql, Produto.class);
+        nativeQuery.setParameter("id", 1);
+
+        List<Produto> resultList = nativeQuery.getResultList();
+
+        resultList.forEach(obj -> System.out.printf("Produto => ED: %s, Nome: %s%n", obj.getId(), obj.getNome()));
+    }
+
+    @Test
     public void executarSQLRetornandoEntidade() {
         var sql = "select * from produto";
         Query nativeQuery = entityManager.createNativeQuery(sql, Produto.class);
