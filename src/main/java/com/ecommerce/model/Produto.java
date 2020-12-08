@@ -24,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -43,6 +44,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@NamedNativeQuery(name = "produto_loja.listar", query = "select * from produto", resultClass = Produto.class)
 @SqlResultSetMappings({
         @SqlResultSetMapping(
                 name = "produto_loja.Produto",
