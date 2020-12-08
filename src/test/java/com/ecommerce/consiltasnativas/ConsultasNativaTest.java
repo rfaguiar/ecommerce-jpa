@@ -10,6 +10,17 @@ import java.util.List;
 
 public class ConsultasNativaTest extends EntityManagerTest {
 
+
+    @Test
+    public void executarSQLFieldResult() {
+        var sql = "select * from produto";
+        Query nativeQuery = entityManager.createNativeQuery(sql, "ecm_produto.Produto");
+
+        List<Produto> resultList = nativeQuery.getResultList();
+
+        resultList.forEach(obj -> System.out.printf("Produto => ED: %s, Nome: %s%n", obj.getId(), obj.getNome()));
+    }
+
     @Test
     public void usarSQLResultSetMapping02() {
         String sql = "select ip.*, p.* from item_pedido ip join produto p on p.id = ip.produto_id";

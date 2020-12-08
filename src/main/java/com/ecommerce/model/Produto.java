@@ -14,6 +14,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EntityResult;
+import javax.persistence.FieldResult;
 import javax.persistence.ForeignKey;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
@@ -42,7 +43,25 @@ import java.util.Set;
 @SqlResultSetMappings({
         @SqlResultSetMapping(
                 name = "produto_loja.Produto",
-                entities = {@EntityResult(entityClass = Produto.class)})
+                entities = {@EntityResult(entityClass = Produto.class)}),
+
+        @SqlResultSetMapping(
+                name = "ecm_produto.Produto",
+                entities = {
+                    @EntityResult(
+                        entityClass = Produto.class,
+                        fields = {
+                                @FieldResult(name = "id", column = "id"),
+                                @FieldResult(name = "nome", column = "nome"),
+                                @FieldResult(name = "descricao", column = "descricao"),
+                                @FieldResult(name = "preco", column = "preco"),
+                                @FieldResult(name = "foto", column = "foto"),
+                                @FieldResult(name = "dataCriacao", column = "data_criacao"),
+                                @FieldResult(name = "dataUltimaAtualizacao", column = "data_ultima_atualizacao"),
+                        }
+                    )
+                }
+        )
 })
 @NamedQueries({
         @NamedQuery(name = "Produto.listar", query = "select p from Produto p"),
