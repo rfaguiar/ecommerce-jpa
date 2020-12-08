@@ -1,5 +1,6 @@
 package com.ecommerce.model;
 
+import com.ecommerce.dto.ProdutoDTO;
 import com.ecommerce.listener.GenericoListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import lombok.Setter;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -44,7 +47,6 @@ import java.util.Set;
         @SqlResultSetMapping(
                 name = "produto_loja.Produto",
                 entities = {@EntityResult(entityClass = Produto.class)}),
-
         @SqlResultSetMapping(
                 name = "ecm_produto.Produto",
                 entities = {
@@ -60,6 +62,18 @@ import java.util.Set;
                                 @FieldResult(name = "dataUltimaAtualizacao", column = "data_ultima_atualizacao"),
                         }
                     )
+                }
+        ),
+        @SqlResultSetMapping(
+                name = "ecm_produto.ProdutoDTO",
+                classes = {
+                        @ConstructorResult(
+                                targetClass = ProdutoDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = Integer.class),
+                                        @ColumnResult(name = "nome", type = String.class)
+                                }
+                        )
                 }
         )
 })

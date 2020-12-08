@@ -1,6 +1,7 @@
 package com.ecommerce.consiltasnativas;
 
 import com.ecommerce.EntityManagerTest;
+import com.ecommerce.dto.ProdutoDTO;
 import com.ecommerce.model.ItemPedido;
 import com.ecommerce.model.Produto;
 import org.junit.Test;
@@ -10,6 +11,15 @@ import java.util.List;
 
 public class ConsultasNativaTest extends EntityManagerTest {
 
+    @Test
+    public void executarSQLColumnResultRetornarDTO() {
+        var sql = "select * from produto";
+        Query nativeQuery = entityManager.createNativeQuery(sql, "ecm_produto.ProdutoDTO");
+
+        List<ProdutoDTO> resultList = nativeQuery.getResultList();
+
+        resultList.forEach(obj -> System.out.printf("ProdutoDTO => ED: %s, Nome: %s%n", obj.getId(), obj.getNome()));
+    }
 
     @Test
     public void executarSQLFieldResult() {
