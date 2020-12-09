@@ -2,6 +2,7 @@ package com.ecommerce.consiltasnativas;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.dto.ProdutoDTO;
+import com.ecommerce.model.Categoria;
 import com.ecommerce.model.ItemPedido;
 import com.ecommerce.model.Produto;
 import org.junit.Test;
@@ -10,6 +11,15 @@ import javax.persistence.Query;
 import java.util.List;
 
 public class ConsultasNativaTest extends EntityManagerTest {
+
+    @Test
+    public void executarSQLUsandoArquivoXML() {
+        Query nativeQuery = entityManager.createNamedQuery("ecm_categoria.listar");
+
+        List<Categoria> resultList = nativeQuery.getResultList();
+
+        resultList.forEach(obj -> System.out.printf("Categoria => ED: %s, Nome: %s%n", obj.getId(), obj.getNome()));
+    }
 
     @Test
     public void executarSQLUmaNamedNativeQuery() {
