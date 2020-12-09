@@ -1,4 +1,4 @@
-package com.ecommerce.consiltasnativas;
+package com.ecommerce.consultasnativas;
 
 import com.ecommerce.EntityManagerTest;
 import com.ecommerce.dto.CategoriaDTO;
