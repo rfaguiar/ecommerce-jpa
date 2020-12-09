@@ -27,6 +27,7 @@ import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
@@ -53,9 +54,11 @@ indexes = {@Index(name = "idx_nome", columnList = "nome")})
         foreignKey = @ForeignKey(name = "fk_cliente_detalhe_cliente"))
 public class Cliente extends EntidadeBaseInteger {
 
+    @NotBlank
     @Column(length = 100, nullable = false)
     private String nome;
 
+    @NotBlank
     @Column(length = 14, nullable = false)
     private String cpf;
 
