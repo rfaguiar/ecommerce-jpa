@@ -2,6 +2,7 @@ package com.ecommerce.model;
 
 import com.ecommerce.dto.ProdutoDTO;
 import com.ecommerce.listener.GenericoListener;
+import com.ecommerce.model.converter.BooleanToSimNaoConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,6 +14,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
+import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -114,6 +116,11 @@ public class Produto extends EntidadeBaseInteger {
 
     @Positive
     private BigDecimal preco;
+
+    @Convert(converter = BooleanToSimNaoConverter.class)
+    @NotNull
+    @Column(length = 3, nullable = false)
+    private Boolean ativo = Boolean.FALSE;
 
     @Lob
     private byte[] foto;
