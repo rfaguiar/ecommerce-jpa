@@ -19,6 +19,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
@@ -44,6 +48,29 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "Pedido.dadosEssenciais",
+                attributeNodes = {
+                        @NamedAttributeNode("dataCriacao"),
+                        @NamedAttributeNode("status"),
+                        @NamedAttributeNode("total"),
+                        @NamedAttributeNode(
+                                value = "cliente",
+                                subgraph = "cli"
+                        )
+                },
+                subgraphs = {
+                        @NamedSubgraph(
+                                name = "cli",
+                                attributeNodes = {
+                                        @NamedAttributeNode("nome"),
+                                        @NamedAttributeNode("cpf")
+                                }
+                        )
+                }
+        )
+})
 @EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
 @Entity
 @Table(name = "pedido")
