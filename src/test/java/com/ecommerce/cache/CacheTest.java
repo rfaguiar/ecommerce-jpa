@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import static org.junit.Assert.assertTrue;
+
 public class CacheTest {
 
     protected static EntityManagerFactory entityManagerFactory;
@@ -26,12 +28,17 @@ public class CacheTest {
 
     @Test
     public void verificarSeEstaNoCache() {
+        Cache cache = entityManagerFactory.getCache();
+
         EntityManager entityManager1 = entityManagerFactory.createEntityManager();
 
         System.out.println("Buscando a partir da instância 1:");
         entityManager1
                 .createQuery("select p from Pedido p", Pedido.class)
                 .getResultList();
+
+        assertTrue(cache.contains(Pedido.class, 1));
+        assertTrue(cache.contains(Pedido.class, 2));
     }
 
     @Test
