@@ -28,6 +28,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +61,7 @@ public class Cliente extends EntidadeBaseInteger {
     private String nome;
 
     @NotBlank
+    @Pattern(regexp = "(^\\d{3}\\x2E\\d{3}\\x2E\\d{3}\\x2D\\d{2}$)")
     @Column(length = 14, nullable = false)
     private String cpf;
 
@@ -73,6 +76,7 @@ public class Cliente extends EntidadeBaseInteger {
     @Transient
     private String primeiroNome;
 
+    @NotNull
     @Column(table = "cliente_detalhe", length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private SexoCliente sexo;

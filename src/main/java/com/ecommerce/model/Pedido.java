@@ -29,6 +29,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -45,15 +49,25 @@ import java.util.Set;
 @Table(name = "pedido")
 public class Pedido extends EntidadeBaseInteger {
 
+    @PastOrPresent
+    @NotNull
     @Column(name = "data_criacao", updatable = false, nullable = false)
     private LocalDateTime dataCriacao;
 
+    @PastOrPresent
     @Column(name = "data_atualizacao", insertable = false)
     private LocalDateTime dataAtualizacao;
 
+    @PastOrPresent
+    @Column(name = "data_conclusao")
+    private LocalDateTime dataConclusao;
+
+    @NotNull
+    @Positive
     @Column(nullable = false)
     private BigDecimal total;
 
+    @NotNull
     @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
@@ -61,11 +75,13 @@ public class Pedido extends EntidadeBaseInteger {
     @Embedded
     private EnderecoEntregaPedido endereco;
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id", nullable = false,
         foreignKey = @ForeignKey(name = "fk_pedido_cliente"))
     private Cliente cliente;
 
+    @NotEmpty
     @OneToMany(mappedBy = "pedido")
     private Set<ItemPedido> itensPedido;
 
