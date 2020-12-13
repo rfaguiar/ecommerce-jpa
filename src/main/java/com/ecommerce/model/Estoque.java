@@ -6,11 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @AllArgsConstructor
@@ -21,6 +24,9 @@ import javax.persistence.Table;
 @Table(name = "estoque")
 public class Estoque extends EntidadeBaseInteger {
 
+    @PositiveOrZero
+    @NotNull
+    @Column(nullable = false)
     private Integer quantidade;
 
     @OneToOne(optional = false)
