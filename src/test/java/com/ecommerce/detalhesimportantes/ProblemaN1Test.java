@@ -1,7 +1,6 @@
 package com.ecommerce.detalhesimportantes;
 
 import com.ecommerce.EntityManagerTest;
-import com.ecommerce.model.Cliente_;
 import com.ecommerce.model.Pedido;
 import com.ecommerce.model.Pedido_;
 import org.junit.Test;
