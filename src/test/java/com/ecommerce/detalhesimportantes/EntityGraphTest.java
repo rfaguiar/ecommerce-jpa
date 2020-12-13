@@ -1,10 +1,12 @@
 package com.ecommerce.detalhesimportantes;
 
 import com.ecommerce.EntityManagerTest;
+import com.ecommerce.model.Cliente;
 import com.ecommerce.model.Pedido;
 import org.junit.Test;
 
 import javax.persistence.EntityGraph;
+import javax.persistence.Subgraph;
 import javax.persistence.TypedQuery;
 import java.util.HashMap;
 
@@ -22,6 +24,20 @@ public class EntityGraphTest  extends EntityManagerTest {
 //        properties.put("javax.persistence.fetchgraph", entityGraph);
 //        var pedido = entityManager.find(Pedido.class, 1, properties);
 //        assertNotNull(pedido);
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery("select p from Pedido p", Pedido.class);
+        typedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
+        var lista = typedQuery.getResultList();
+        assertFalse(lista.isEmpty());
+    }
+
+    @Test
+    public void buscarAtributosEssenciaisDePedidoFetchGraph02() {
+        EntityGraph<Pedido> entityGraph = entityManager.createEntityGraph(Pedido.class);
+        entityGraph.addAttributeNodes("dataCriacao", "status", "total");
+
+        Subgraph<Cliente> subgraph = entityGraph.addSubgraph("cliente", Cliente.class);
+        subgraph.addAttributeNodes("nome", "cpf");
 
         TypedQuery<Pedido> typedQuery = entityManager.createQuery("select p from Pedido p", Pedido.class);
         typedQuery.setHint("javax.persistence.fetchgraph", entityGraph);
