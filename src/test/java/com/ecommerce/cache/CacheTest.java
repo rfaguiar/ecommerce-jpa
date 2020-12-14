@@ -42,6 +42,20 @@ public class CacheTest {
     }
 
     @Test
+    public void analisarOpcoesCache() {
+        Cache cache = entityManagerFactory.getCache();
+
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+
+        System.out.println("Buscando a partir da instância 1:");
+        entityManager1
+                .createQuery("select p from Pedido p", Pedido.class)
+                .getResultList();
+
+        assertTrue(cache.contains(Pedido.class, 1));
+    }
+
+    @Test
     public void removerDoCache() {
         Cache cache = entityManagerFactory.getCache();
 
