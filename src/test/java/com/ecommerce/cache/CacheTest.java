@@ -14,6 +14,7 @@ import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CacheTest {
@@ -28,6 +29,37 @@ public class CacheTest {
     @AfterClass
     public static void tearDownAfterClass() {
         entityManagerFactory.close();
+    }
+
+    private static void esperar(int segundos) {
+        try {
+            Thread.sleep(segundos * 1000);
+        } catch (InterruptedException e) {}
+    }
+
+    private static void log(Object obj) {
+        System.out.println("[LOG " + System.currentTimeMillis() + "] " + obj);
+    }
+
+    @Test
+    public void ehcache() {
+        Cache cache = entityManagerFactory.getCache();
+
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+        EntityManager entityManager2 = entityManagerFactory.createEntityManager();
+
+        log("Buscando e incluindo no cache...");
+        entityManager1
+                .createQuery("select p from Pedido p", Pedido.class)
+                .getResultList();
+        log("---");
+
+        esperar(1);
+        assertTrue(cache.contains(Pedido.class, 2));
+        entityManager2.find(Pedido.class, 2);
+
+        esperar(3);
+        assertFalse(cache.contains(Pedido.class, 2));
     }
 
     @Test
