@@ -21,6 +21,6 @@ public class EntidadeBaseInteger {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @Version
-//    private Integer version;
+    @Version
+    private Integer version;
 }
