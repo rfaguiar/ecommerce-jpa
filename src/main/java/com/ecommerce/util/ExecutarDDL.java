@@ -10,6 +10,9 @@ public class ExecutarDDL {
     public static void main(String[] args) {
         Map<String, String> propriedades = new HashMap<>();
 
+        propriedades.put("javax.persistence.jdbc.url",
+                "jdbc:mysql://localhost/loja_ecommerce_jpa?createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC&sessionVariables=sql_mode=''");
+
         propriedades.put("javax.persistence.schema-generation.database.action",
                 "drop-and-create");
 
