@@ -1,44 +1,19 @@
 package com.ecommerce.cache;
 
+import com.ecommerce.EntityManagerFactoryTest;
 import com.ecommerce.model.Pedido;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.persistence.Cache;
 import javax.persistence.CacheStoreMode;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class CacheTest {
-
-    protected static EntityManagerFactory entityManagerFactory;
-
-    @BeforeClass
-    public static void setUpBeforeClass() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("Ecommerce-PU");
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() {
-        entityManagerFactory.close();
-    }
-
-    private static void esperar(int segundos) {
-        try {
-            Thread.sleep(segundos * 1000);
-        } catch (InterruptedException e) {}
-    }
-
-    private static void log(Object obj) {
-        System.out.println("[LOG " + System.currentTimeMillis() + "] " + obj);
-    }
+public class CacheTest extends EntityManagerFactoryTest {
 
     @Test
     public void ehcache() {
