@@ -22,5 +22,5 @@ public class EntidadeBaseInteger {
     private Integer id;
 
     @Version
-    private Integer version;
+    private Integer versao;
 }

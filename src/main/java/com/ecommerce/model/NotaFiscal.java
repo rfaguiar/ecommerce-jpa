@@ -31,7 +31,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "nota_fiscal")
-public class NotaFiscal {
+public class NotaFiscal extends EntidadeBaseInteger {
 
     @EqualsAndHashCode.Include
     @Id

@@ -45,7 +45,7 @@ public class ItemPedido {
     private ItemPedidoId id;
 
     @Version
-    private Integer version;
+    private Integer versao;
 
     @NotNull
     @MapsId("pedidoId")
