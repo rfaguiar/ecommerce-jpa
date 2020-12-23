@@ -9,5 +9,5 @@ docker run --name mysql8 --network minha-rede -v $(pwd)/mysql-datadir:/var/lib/m
 ### Postgres 13 docker  
 * [MySQL Docker Official image](https://hub.docker.com/_/postgres)  
 ```sh
-docker run --name postgres13 -e POSTGRES_PASSWORD=mysecretpassword -e PGDATA=/var/lib/postgresql/data/pgdata -v $(pwd)/postgres-datadir:/var/lib/postgresql/data -d postgres:13
+docker run --name postgres13 -e POSTGRES_PASSWORD=mysecretpassword -e PGDATA=/var/lib/postgresql/data/pgdata -v $(pwd)/postgres-datadir:/var/lib/postgresql/data -p 5432:5432 -d postgres:13
 ```
