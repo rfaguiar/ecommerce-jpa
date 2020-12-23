@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,7 +48,6 @@ public class NotaFiscal extends EntidadeBaseInteger {
     @NotEmpty
     @Lob
     @Column(nullable = false)
-    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] xml;
 
     @PastOrPresent

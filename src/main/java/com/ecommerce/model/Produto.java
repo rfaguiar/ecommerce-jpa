@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -112,7 +111,7 @@ public class Produto extends EntidadeBaseInteger {
     @Column(length = 100, nullable = false)
     private String nome;
 
-//    @Lob
+    @Lob
     private String descricao;
 
     @Positive
@@ -124,7 +123,6 @@ public class Produto extends EntidadeBaseInteger {
     private Boolean ativo = Boolean.FALSE;
 
     @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] foto;
 
     @ManyToMany
