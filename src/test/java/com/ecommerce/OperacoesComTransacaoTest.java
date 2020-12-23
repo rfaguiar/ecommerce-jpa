@@ -30,6 +30,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
                 .nome("Câmera Canon")
                 .descricao("A melhor definição para suas fotos.")
                 .preco(new BigDecimal(5000))
+                .ativo(Boolean.TRUE)
                 .build();
 
         entityManager.persist(produto);

@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -92,9 +93,9 @@ import java.util.Set;
 @EntityListeners({GenericoListener.class})
 @Entity
 @Table(name = "produto", uniqueConstraints = {
-        @UniqueConstraint(name = "unq_nome", columnNames = {"nome"})
+        @UniqueConstraint(name = "unq_produto_nome", columnNames = {"nome"})
 },
-        indexes = {@Index(name = "idx_nome", columnList = "nome")})
+        indexes = {@Index(name = "idx_produto_nome", columnList = "nome")})
 public class Produto extends EntidadeBaseInteger {
 
     @PastOrPresent
@@ -111,7 +112,7 @@ public class Produto extends EntidadeBaseInteger {
     @Column(length = 100, nullable = false)
     private String nome;
 
-    @Lob
+//    @Lob
     private String descricao;
 
     @Positive
@@ -123,6 +124,7 @@ public class Produto extends EntidadeBaseInteger {
     private Boolean ativo = Boolean.FALSE;
 
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] foto;
 
     @ManyToMany
